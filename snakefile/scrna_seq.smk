@@ -52,6 +52,7 @@ rule provenance:
                  + [str(SOURCE.parent / 'containers' / name) for name in
                     ['scrna-analysis.def', 'scrna-soupx.def', 'scrna-requirements.txt']]
                  + [str(SOURCE.parent / 'examples' / 'scrna_seq' / 'config.yaml')]),
+            reference=[CFG['annotation_reference']['path']] if CFG['annotation']['backend'] == 'scanvi_reference' else [],
         snakefile=str(SOURCE / 'scrna_seq.smk')
     output: 'provenance/run.json'
     params: cfg=CFG, samples=SAMPLES
@@ -233,42 +234,64 @@ rule scvi:
     benchmark: 'benchmarks/scvi.tsv'
     script: 'scripts/scrna/integrate.py'
 
-rule celltypist_model:
-    input: [CFG['celltypist']['model_path']] if CFG['celltypist']['model_path'] else []
-    output: model='models/celltypist.pkl', metadata='models/celltypist.json'
-    params: cfg=CFG
-    container: C['analysis']
-    log: 'logs/celltypist_model.log'
-    script: 'scripts/scrna/celltypist_model.py'
+if CFG['annotation']['backend'] == 'celltypist':
+    rule celltypist_model:
+        input: [CFG['celltypist']['model_path']] if CFG['celltypist']['model_path'] else []
+        output: model='models/celltypist.pkl', metadata='models/celltypist.json'
+        params: cfg=CFG
+        container: C['analysis']
+        log: 'logs/celltypist_model.log'
+        script: 'scripts/scrna/celltypist_model.py'
 
-rule celltypist:
-    input: adata='analysis/scvi.h5ad', model='models/celltypist.pkl'
-    output: adata='analysis/celltypist.h5ad', summary='analysis/celltypist.json'
-    params: cfg=CFG
-    threads: CFG['resources']['analysis_threads']
-    resources: mem_mb=CFG['resources']['model_mem_mb']
-    container: C['analysis']
-    log: 'logs/celltypist.log'
-    benchmark: 'benchmarks/celltypist.tsv'
-    script: 'scripts/scrna/annotate.py'
+    rule celltypist:
+        input: adata='analysis/scvi.h5ad', model='models/celltypist.pkl'
+        output: adata='analysis/celltypist.h5ad', summary='analysis/celltypist.json'
+        params: cfg=CFG
+        threads: CFG['resources']['analysis_threads']
+        resources: mem_mb=CFG['resources']['model_mem_mb']
+        container: C['analysis']
+        log: 'logs/celltypist.log'
+        benchmark: 'benchmarks/celltypist.tsv'
+        script: 'scripts/scrna/annotate.py'
 
-rule scanvi:
-    input: adata='analysis/celltypist.h5ad', model='models/scvi'
-    output:
-        adata='analysis/final.h5ad',
-        model=directory('models/scanvi'),
-        composition='analysis/composition.tsv',
-        composition_major='analysis/composition_major.tsv',
-        cells='analysis/cells.tsv.gz',
-        history='analysis/scanvi_history.tsv',
-        summary='analysis/scanvi.json'
-    params: cfg=CFG
-    threads: CFG['resources']['analysis_threads']
-    resources: mem_mb=CFG['resources']['model_mem_mb'], gpu=CFG['resources']['gpu']
-    container: C['analysis']
-    log: 'logs/scanvi.log'
-    benchmark: 'benchmarks/scanvi.tsv'
-    script: 'scripts/scrna/scanvi.py'
+    rule scanvi:
+        input: adata='analysis/celltypist.h5ad', model='models/scvi'
+        output:
+            adata='analysis/final.h5ad',
+            model=directory('models/scanvi'),
+            composition='analysis/composition.tsv',
+            composition_major='analysis/composition_major.tsv',
+            cells='analysis/cells.tsv.gz',
+            history='analysis/scanvi_history.tsv',
+            summary='analysis/scanvi.json'
+        params: cfg=CFG
+        threads: CFG['resources']['analysis_threads']
+        resources: mem_mb=CFG['resources']['model_mem_mb'], gpu=CFG['resources']['gpu']
+        container: C['analysis']
+        log: 'logs/scanvi.log'
+        benchmark: 'benchmarks/scanvi.tsv'
+        script: 'scripts/scrna/scanvi.py'
+
+else:
+    rule scanvi_reference:
+        input:
+            query='analysis/prepared.h5ad',
+            reference=CFG['annotation_reference']['path']
+        output:
+            adata='analysis/final.h5ad',
+            model=directory('models/reference_scanvi'),
+            composition='analysis/composition.tsv',
+            composition_major='analysis/composition_major.tsv',
+            cells='analysis/cells.tsv.gz',
+            history='analysis/reference_scanvi_history.tsv',
+            summary='analysis/reference_scanvi.json'
+        params: cfg=CFG
+        threads: CFG['resources']['analysis_threads']
+        resources: mem_mb=CFG['resources']['model_mem_mb'], gpu=CFG['resources']['gpu']
+        container: C['analysis']
+        log: 'logs/reference_scanvi.log'
+        benchmark: 'benchmarks/reference_scanvi.tsv'
+        script: 'scripts/scrna/reference_scanvi.py'
 
 rule report:
     input:
@@ -282,8 +305,12 @@ rule report:
         soup=expand('soupx/{sample}/summary.json', sample=SAMPLES),
         cr=[cr_metrics(s) for s in SAMPLES] if CFG['cellranger']['enabled'] else [],
         kb=expand('kb/{sample}/inspect.json', sample=SAMPLES) if FASTQ else [],
-        summaries=['analysis/prepared.json', 'analysis/scvi.json', 'analysis/celltypist.json', 'analysis/scanvi.json', 'models/celltypist.json'],
-        histories=['analysis/scvi_history.tsv', 'analysis/scanvi_history.tsv'],
+        summaries=(['analysis/prepared.json', 'analysis/scvi.json', 'analysis/celltypist.json', 'analysis/scanvi.json', 'models/celltypist.json']
+               if CFG['annotation']['backend'] == 'celltypist' else
+               ['analysis/prepared.json', 'analysis/scvi.json', 'analysis/reference_scanvi.json']),
+        histories=(['analysis/scvi_history.tsv', 'analysis/scanvi_history.tsv']
+               if CFG['annotation']['backend'] == 'celltypist' else
+               ['analysis/scvi_history.tsv', 'analysis/reference_scanvi_history.tsv']),
         provenance='provenance/run.json',
         mapping_versions=(expand('provenance/kb_{sample}.json', sample=SAMPLES)
                           + (['provenance/kb_reference.json'] if BUILD else [])

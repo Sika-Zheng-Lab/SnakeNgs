@@ -3,6 +3,7 @@ sys.path.insert(0, snakemake.scriptdir)
 import base64
 import html
 import json
+import textwrap
 from pathlib import Path
 import anndata as ad
 import numpy as np
@@ -19,6 +20,8 @@ from runtime import logged
 def run(sm):
     cfg = sm.params.cfg
     r = cfg['report']
+    backend = cfg['annotation']['backend']
+    reference_mode = backend == 'scanvi_reference'
     a = ad.read_h5ad(sm.input.adata)
     out = Path(sm.output.figures)
     out.mkdir(parents=True, exist_ok=True)
@@ -38,7 +41,7 @@ def run(sm):
     sample_colors = distinct_colors(sm.params.samples, palette)
     celltypes = sorted(a.obs['cell_type'].astype(str).unique())
     major_celltypes = sorted(a.obs['major_cell_type'].astype(str).unique())
-    unknown = cfg['scanvi']['unlabeled_category']
+    unknown = cfg['annotation_reference']['unlabeled_category'] if reference_mode else cfg['scanvi']['unlabeled_category']
     cell_colors = distinct_colors(celltypes, palette, r['celltype_colors'], {unknown: '#999999'})
     major_colors = distinct_colors(major_celltypes, palette, r['major_celltype_colors'], {unknown: '#999999'})
     rng = np.random.default_rng(cfg['seed'])
@@ -59,15 +62,18 @@ def run(sm):
             for ext, mime in [('png', 'image/png'), ('svg', 'image/svg+xml'), ('pdf', 'application/pdf')])
         return f'<figure><img alt="{html.escape(caption, quote=True)}" src="data:image/png;base64,{png}"><figcaption>{html.escape(caption)} · {downloads}</figcaption></figure>'
 
-    def umap(ax, embedding, key, title, colors=None):
+    def umap(ax, embedding, key, title, colors=None, square=False, wrap_labels=None):
         points = a.obsm[embedding][chosen]
         labels = a.obs[key].astype(str).to_numpy()[chosen]
         names = sorted(a.obs[key].astype(str).unique())
         colors = colors or (sample_colors if key == 'sample' else distinct_colors(names, palette))
         for name in names:
             keep = labels == name
-            ax.scatter(points[keep, 0], points[keep, 1], s=r['point_size'], color=colors[name], label=name, linewidths=0, rasterized=True)
+            legend_label = '\n'.join(textwrap.wrap(name, width=wrap_labels)) if wrap_labels else name
+            ax.scatter(points[keep, 0], points[keep, 1], s=r['point_size'], color=colors[name], label=legend_label, linewidths=0, rasterized=True)
         ax.set(title=title, xlabel='UMAP 1', ylabel='UMAP 2', xticks=[], yticks=[])
+        if square:
+            ax.set_box_aspect(1)
         ax.legend(loc='upper left', bbox_to_anchor=(1.01, 1), frameon=False, markerscale=3)
 
     def stacked_composition(ax, frame, colors, title):
@@ -104,7 +110,9 @@ def run(sm):
     note_html = '<ul>' + ''.join(f'<li>{html.escape(n)}</li>' for n in notes) + '</ul>' if notes else ''
     add('Analysis overview', 'This primary analysis uses kb-derived UMI counts. Cell Ranger supplies sequencing QC metrics.',
         f'<div class="stats"><b>{a.n_obs:,}</b> retained cells / nuclei · <b>{a.n_vars:,}</b> genes · <b>{a.obs["sample"].nunique()}</b> libraries · <b>{a.obs["donor"].nunique()}</b> donors</div>'
-        + note_html + '<p>kb → sample QC / Scrublet → SoupX → library depth normalization → scVI → CellTypist → scANVI → report</p>')
+        + note_html + '<p>' + ('kb → sample QC / Scrublet → SoupX → library depth normalization → query scVI → reference scVI/scANVI mapping → report'
+                      if reference_mode else
+                      'kb → sample QC / Scrublet → SoupX → library depth normalization → scVI → CellTypist → scANVI → report') + '</p>')
     meta_columns = [k for k in ['sample', 'donor', 'condition', 'batch', 'age', 'sex'] if k in a.obs]
     add('Samples and experimental design', 'Additional sequencing lanes from the same library are combined. Computational correction cannot disentangle batch effects from biological conditions when they are confounded.', table(a.obs[meta_columns].drop_duplicates()))
 
@@ -152,11 +160,22 @@ def run(sm):
     ax.set(xticks=x, xticklabels=depth['sample'], ylabel='Median UMI per cell'); ax.tick_params(axis='x', rotation=90); ax.legend(frameon=False)
     add('Library depth normalization', f'For visualization and CellTypist, each cell is normalized to a total of 10,000 counts and log1p-transformed. Optional depth matching uses binomial thinning based on sample median UMI counts. scVI/scANVI receives integer UMI counts from <code>{html.escape(cfg["depth"]["model_layer"])}</code>. Thinning discards information and cannot recover RNA that was undetected at low sequencing depth.', save(fig, 'library_depth', 'Sample median UMI before and after thinning') + table(depth))
 
-    fig, axes = plt.subplots(2, 2, figsize=(width, 6))
-    for row, (embedding, label) in enumerate([('X_umap_uncorrected', 'PCA before correction'), ('X_umap_scVI', 'scVI')]):
+    integration_embeddings = [('X_umap_uncorrected', 'PCA before correction'),
+                              ('X_umap_scVI', 'scVI')]
+    if cfg['scanvi']['enabled']:
+        embedding_key = 'X_umap_scANVI_reference' if reference_mode else 'X_umap_scANVI'
+        integration_embeddings.append((embedding_key, 'reference scANVI' if reference_mode else 'scANVI'))
+    fig, axes = plt.subplots(len(integration_embeddings), 2,
+                             figsize=(width, 3 * len(integration_embeddings)), squeeze=False)
+    for row, (embedding, label) in enumerate(integration_embeddings):
         umap(axes[row, 0], embedding, 'sample', label + ': sample')
         umap(axes[row, 1], embedding, 'condition', label + ': condition')
-    add('scVI batch correction', 'UMAP is computed separately from the uncorrected PCA and scVI latent representations. Axes and distances are not directly comparable across independent embeddings. Improved batch mixing alone does not establish successful correction; also assess biological conditions and preservation of marker expression.', save(fig, 'integration', 'Uncorrected and scVI embeddings'))
+    embedding_names = 'uncorrected PCA and scVI latent representations'
+    caption = 'Uncorrected and scVI embeddings'
+    if cfg['scanvi']['enabled']:
+        embedding_names += ', and the ' + ('reference scANVI mapping' if reference_mode else 'scANVI') + ' latent representation'
+        caption = 'Uncorrected, scVI, and ' + ('reference scANVI' if reference_mode else 'scANVI') + ' embeddings'
+    add('Latent-space integration', f'UMAP is computed separately from the {embedding_names}. Axes and distances are not directly comparable across independent embeddings. Improved batch mixing alone does not establish successful correction; also assess biological conditions and preservation of marker expression.', save(fig, 'integration', caption))
     fig, axes = plt.subplots(1, 2, figsize=(width, 2.6))
     for metric, label in [('batch_entropy_before', 'Before'), ('batch_entropy_scVI', 'scVI')]:
         vals = a.obs[metric].dropna()
@@ -171,10 +190,14 @@ def run(sm):
     if axes[1].get_legend_handles_labels()[0]: axes[1].legend(frameon=False)
     add('Integration diagnostics', 'Neighbor batch entropy ranges from 0 for separation to 1 for equal mixing across batches. Its expected value depends on batch proportions and cell-type composition. Training curves diagnose convergence; they do not measure accuracy on independent validation data.', save(fig, 'integration_diagnostics', 'Neighbor entropy and training traces'))
 
-    fig, axes = plt.subplots(1, 2, figsize=(width, 3.5))
-    embedding = 'X_umap_scANVI' if cfg['scanvi']['enabled'] else 'X_umap_scVI'
-    umap(axes[0], embedding, 'cell_type', 'Final subtype', cell_colors)
-    umap(axes[1], embedding, 'major_cell_type', 'Final major cell type', major_colors)
+    # Keep the annotation canvas square so long cell-type legends do not
+    # compress the UMAP panels into a short, wide figure.
+    fig, axes = plt.subplots(1, 2, figsize=(width, width))
+    embedding = ('X_umap_scANVI_reference' if reference_mode else 'X_umap_scANVI') if cfg['scanvi']['enabled'] else 'X_umap_scVI'
+    umap(axes[0], embedding, 'cell_type', 'Final subtype', cell_colors,
+         square=True, wrap_labels=18)
+    umap(axes[1], embedding, 'major_cell_type', 'Final major cell type', major_colors,
+         square=True, wrap_labels=18)
     annotation_body = save(fig, 'annotation', 'Final subtype and major-cell-type annotations')
     if 'scanvi_normalized_entropy' in a.obs:
         fig, ax = plt.subplots(figsize=(width * .55, 3.1))
@@ -186,19 +209,38 @@ def run(sm):
         annotation_body += save(fig, 'annotation_uncertainty', 'scANVI label uncertainty')
     else:
         annotation_body += '<p>scANVI uncertainty is unavailable because scANVI is disabled.</p>'
-    add('Cell types and uncertainty', 'Subtype labels are mapped to configurable major cell types. When enabled, scANVI is trained using sufficiently supported, high-confidence CellTypist labels as seeds. Repeated latent-variable draws yield class probabilities, standard deviations, and entropy. Cells that fail the confidence thresholds receive the configured unknown label. These probabilities do not necessarily detect reference-model errors or cell types absent from training.', annotation_body)
+    annotation_explanation = ('Subtype labels are mapped to configurable major cell types. When enabled, scANVI is trained using sufficiently supported, high-confidence CellTypist labels as seeds.'
+                               if not reference_mode else
+                               'Subtype labels are transferred from the labeled reference through a joint scVI and semi-supervised scANVI model; query cells are never used as pseudo-labeled training seeds.')
+    annotation_explanation += ' Repeated latent-variable draws yield class probabilities, standard deviations, and entropy. Cells that fail the confidence thresholds receive the configured unknown label. These probabilities do not necessarily detect reference-model errors or cell types absent from training.'
+    if reference_mode:
+        reference_summary = next((s.get('reference', {}) for s in summaries if s.get('backend') == 'scanvi_reference'), {})
+        annotation_body += '<h3>Reference mapping</h3>' + table(pd.DataFrame([{
+            'Reference file': reference_summary.get('path', 'unknown'),
+            'Reference SHA256': reference_summary.get('sha256', 'unknown'),
+            'Reference cells': reference_summary.get('n_reference_cells', 'unknown'),
+            'Reference labels': reference_summary.get('n_reference_labels', 'unknown'),
+            'Shared genes': reference_summary.get('shared_genes', 'unknown'),
+            'HVGs': reference_summary.get('n_hvg', 'unknown'),
+            'Low-confidence query cells': int(a.obs['annotation_uncertain'].sum())}]))
+    add('Cell types and uncertainty', annotation_explanation, annotation_body)
     if cfg['scanvi']['enabled']:
         fig, axes = plt.subplots(1, 2, figsize=(width, 2.7))
         axes[0].hist(a.obs['scanvi_max_probability'], bins=40, color='#0072B2')
         axes[0].axvline(cfg['scanvi']['min_probability'], color='#D55E00', linestyle='--')
         axes[0].set(xlabel='Maximum class probability', ylabel='Cells')
-        cross = pd.crosstab(a.obs['celltypist_label'], a.obs['scanvi_label'], normalize='index')
-        axes[1].imshow(cross, aspect='auto', cmap='cividis', vmin=0, vmax=1)
-        axes[1].set(xticks=np.arange(len(cross.columns)), xticklabels=cross.columns,
-                    yticks=np.arange(len(cross.index)), yticklabels=cross.index,
-                    xlabel='scANVI', ylabel='CellTypist')
-        axes[1].tick_params(axis='x', rotation=90)
-        add('Annotation agreement', 'Agreement is influenced by training on CellTypist-derived seeds and is not an independent accuracy assessment. CellTypist one-vs-rest scores do not sum to one across classes and have a different interpretation from scANVI class probabilities.', save(fig, 'annotation_diagnostics', 'scANVI confidence and seed-model label agreement'))
+        if reference_mode:
+            axes[1].hist(a.obs['scanvi_normalized_entropy'], bins=40, color='#E69F00')
+            axes[1].set(xlabel='Normalized label entropy', ylabel='Cells')
+            add('Annotation confidence', 'Reference scANVI predictions are summarized by posterior label confidence and normalized entropy. The external reference is training context only and is excluded from query composition.', save(fig, 'annotation_diagnostics', 'Reference scANVI confidence and entropy'))
+        else:
+            cross = pd.crosstab(a.obs['celltypist_label'], a.obs['scanvi_label'], normalize='index')
+            axes[1].imshow(cross, aspect='auto', cmap='cividis', vmin=0, vmax=1)
+            axes[1].set(xticks=np.arange(len(cross.columns)), xticklabels=cross.columns,
+                        yticks=np.arange(len(cross.index)), yticklabels=cross.index,
+                        xlabel='scANVI', ylabel='CellTypist')
+            axes[1].tick_params(axis='x', rotation=90)
+            add('Annotation agreement', 'Agreement is influenced by training on CellTypist-derived seeds and is not an independent accuracy assessment. CellTypist one-vs-rest scores do not sum to one across classes and have a different interpretation from scANVI class probabilities.', save(fig, 'annotation_diagnostics', 'scANVI confidence and seed-model label agreement'))
 
     requested_markers = list(dict.fromkeys(g for genes in r['markers'].values() for g in genes))
     x, symbols = aggregate_symbols(a.layers[cfg['depth']['model_layer']], a.var['gene_symbol'])
@@ -208,11 +250,15 @@ def run(sm):
         subset = x[:, symbols.get_indexer(markers)].multiply((1e4 / np.maximum(1, totals))[:, None]).tocsr()
         subset.data = np.log1p(subset.data)
         means = np.vstack([np.asarray(subset[a.obs['cell_type'].astype(str).to_numpy() == group].mean(axis=0)).ravel() for group in celltypes])
+        marker_sd = means.std(axis=0)
+        zscores = np.divide(means - means.mean(axis=0), marker_sd,
+                            out=np.zeros_like(means), where=marker_sd > 0)
+        zmax = max(1, np.max(np.abs(zscores)))
         fig, ax = plt.subplots(figsize=(width, max(2.5, len(celltypes) * .18)))
-        plot = ax.imshow(means, cmap='cividis', aspect='auto')
+        plot = ax.imshow(zscores, cmap='RdBu_r', vmin=-zmax, vmax=zmax, aspect='auto')
         ax.set(xticks=np.arange(len(markers)), xticklabels=markers, yticks=np.arange(len(celltypes)), yticklabels=celltypes)
-        ax.tick_params(axis='x', rotation=90); fig.colorbar(plot, ax=ax, label='Mean log1p(CP10k)')
-        add('Marker expression', 'Configured markers are displayed by cell type using normalized expression from the selected count layer. These values are not scVI-derived corrected expression estimates.', save(fig, 'markers', 'Marker expression by final cell type'))
+        ax.tick_params(axis='x', rotation=90); fig.colorbar(plot, ax=ax, label='Z-score across cell types')
+        add('Marker expression', 'For each configured marker, mean log1p(CP10k) expression is standardized across cell types. Positive and negative Z-scores indicate expression above and below that marker’s cell-type mean, respectively; they do not show absolute expression or scVI-derived corrected expression.', save(fig, 'markers', 'Relative marker expression by final cell type'))
 
     composition = pd.read_csv(sm.input.composition, sep='\t')
     composition_major = pd.read_csv(sm.input.composition_major, sep='\t')
@@ -254,7 +300,12 @@ def run(sm):
         ('SoupX', 'https://github.com/constantAmateur/SoupX'),
         ('Scrublet', 'https://github.com/swolock/scrublet'),
         ('scVI/scANVI', 'https://docs.scvi-tools.org/en/1.3.3/'),
-        ('CellTypist', 'https://celltypist.readthedocs.io/en/latest/'),
+        ('CellTypist', 'https://celltypist.readthedocs.io/en/latest/')] if not reference_mode else [
+        ('kb-python', 'https://github.com/pachterlab/kb_python'),
+        ('SoupX', 'https://github.com/constantAmateur/SoupX'),
+        ('Scrublet', 'https://github.com/swolock/scrublet'),
+        ('scVI/scANVI', 'https://docs.scvi-tools.org/en/1.3.3/'),
+        ('AnnData', 'https://anndata.readthedocs.io/en/latest/'),
         ('Cell Press figure guidelines', 'https://www.cell.com/figureguidelines')]
     add('Method references', 'Consult the current tool documentation and journal guidelines when selecting analysis settings and preparing final figures.', '<ul>' + ''.join(f'<li><a href="{url}">{name}</a></li>' for name, url in refs) + '</ul>')
     nav = ' · '.join(f'<a href="#{anchor}">{html.escape(title)}</a>' for anchor, title, _ in sections)

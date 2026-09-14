@@ -220,6 +220,14 @@ The workflow keeps two distinct normalization operations:
 
 By default, scVI and scANVI use the full-depth `counts` layer, while `counts_depthmatched` is retained for sensitivity analyses. Set `depth.model_layer: counts_depthmatched` and use a separate work directory to train on depth-matched counts and compare both results.
 
+### Annotation backends
+
+The default `celltypist` backend preserves the original workflow: CellTypist prediction, high-confidence seed selection, and query-only scANVI refinement. The `scanvi_reference` backend is a separate label-transfer workflow: a labeled external AnnData reference and the unlabeled SnakeNgs query are harmonized, used to train a joint scVI model, and passed directly to semi-supervised scANVI. It does not download or run CellTypist and does not create query pseudo-labels before mapping.
+
+Set `annotation.backend: scanvi_reference` and provide `annotation_reference.path`. The reference must contain raw integer UMI counts, labels, and a batch column. `count_source: auto` inspects `.X`, `.raw`, and layers and fails rather than silently using normalized data. Genes are matched by configured symbols or identifiers, duplicate identifiers are summed deterministically, and reference/query batches are namespaced. Reference HVGs are selected from raw counts with a batch-aware Seurat-v3 strategy; the query-only scVI integration model remains available separately for QC and diagnostics.
+
+The reference model stores `X_scANVI_reference`, `X_umap_scANVI_reference`, posterior class probabilities, entropy, and the original predicted label. Only query cells are written to `analysis/final.h5ad`, compositions, and `analysis/cells.tsv.gz`.
+
 ### scANVI uncertainty propagation
 
 CellTypist maximum scores, the margin between the top two scores, agreement with majority voting, and the number of seed cells are used to select training labels. Majority voting uses fine-grained Leiden clusters calculated from the scVI neighbor graph. The workflow stops when fewer than two cell classes have sufficient high-confidence seeds.

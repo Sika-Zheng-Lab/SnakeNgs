@@ -26,6 +26,33 @@ def test_paths_resolved_before_workdir(config):
     assert result['workdir'] == str(base / 'results/scrna_seq')
 
 
+def test_annotation_defaults_to_celltypist(config):
+    cfg, defaults, base = config
+    result, _ = prepare_config(cfg, defaults, base)
+    assert result['annotation']['backend'] == 'celltypist'
+
+
+def test_reference_backend_requires_existing_reference(config):
+    cfg, defaults, base = config
+    cfg['annotation']['backend'] = 'scanvi_reference'
+    with pytest.raises(ValueError, match='annotation_reference.path is required'):
+        prepare_config(cfg, defaults, base)
+    cfg['annotation_reference']['path'] = str(base / 'missing.h5ad')
+    with pytest.raises(ValueError, match='does not exist'):
+        prepare_config(cfg, defaults, base)
+
+
+def test_reference_backend_requires_scanvi(config):
+    cfg, defaults, base = config
+    reference = base / 'reference.h5ad'
+    reference.touch()
+    cfg['annotation']['backend'] = 'scanvi_reference'
+    cfg['annotation_reference']['path'] = str(reference)
+    cfg['scanvi']['enabled'] = False
+    with pytest.raises(ValueError, match='scanvi.enabled'):
+        prepare_config(cfg, defaults, base)
+
+
 def test_duplicate_library_and_fastq_rejected(config):
     cfg, defaults, base = config
     path = Path(cfg['sample_table'])

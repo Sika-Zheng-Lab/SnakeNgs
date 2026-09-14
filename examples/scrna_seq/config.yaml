@@ -109,6 +109,7 @@ scanvi:
   composition_draws: 500         # label-imputation intervals, not biological CIs
 
 annotation:
+  backend: celltypist             # celltypist or scanvi_reference
   # Map CellTypist/scANVI subtypes to dataset-appropriate major classes.
   # Unlisted subtypes use unmapped_major_celltype and are reported for review.
   unmapped_major_celltype: Other
@@ -134,6 +135,28 @@ annotation:
     Sst: Inhibitory neuron
     Sst Chodl: Inhibitory neuron
     Vip: Inhibitory neuron
+
+annotation_reference:
+  path: null
+  count_source: auto               # auto, X, raw, or a named layer
+  gene_symbol_column: gene_symbol
+  label_key: cell_type
+  major_label_key: null
+  batch_key: reference_batch
+  cluster_key: null
+  max_cells_per_cluster: null
+  min_shared_genes: 1000
+  n_hvg: 4000
+  n_hidden: 512
+  n_layers: 4
+  n_latent: 50
+  scvi_max_epochs: 300
+  scanvi_max_epochs: 100
+  batch_size: 128
+  posterior_samples: 30
+  min_probability: 0.7
+  max_normalized_entropy: 0.5
+  unlabeled_category: Unknown
 
 report:
   title: sc/snRNA-seq primary analysis

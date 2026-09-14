@@ -32,6 +32,8 @@ def prepare_config(config, defaults, base):
         raise ValueError('kb.workflow must be standard or nac')
     if cfg['depth']['model_layer'] not in ('counts', 'counts_depthmatched'):
         raise ValueError('depth.model_layer must be counts or counts_depthmatched')
+    if cfg['annotation']['backend'] not in ('celltypist', 'scanvi_reference'):
+        raise ValueError('annotation.backend must be celltypist or scanvi_reference')
     if not cfg['depth']['enabled'] and cfg['depth']['model_layer'] != 'counts':
         raise ValueError('counts_depthmatched requires depth.enabled=true')
     for section, key in [('reference', 'build'), ('cellranger', 'enabled'),
@@ -50,6 +52,9 @@ def prepare_config(config, defaults, base):
         'celltypist': ['min_model_genes', 'over_clustering_resolution'],
         'scanvi': ['min_seed_cells', 'max_epochs', 'n_samples_per_label',
                    'posterior_samples', 'composition_draws'],
+        'annotation_reference': ['min_shared_genes', 'n_hvg', 'n_hidden', 'n_layers',
+                     'n_latent', 'scvi_max_epochs', 'scanvi_max_epochs',
+                     'batch_size', 'posterior_samples'],
         'report': ['font_size', 'dpi', 'width_mm', 'point_size', 'max_plot_cells'],
         'resources': ['mapping_threads', 'mapping_mem_mb', 'analysis_threads', 'analysis_mem_mb', 'model_mem_mb'],
     }
@@ -75,6 +80,8 @@ def prepare_config(config, defaults, base):
         'scrublet': ['n_prin_comps', 'min_counts', 'min_cells'], 'soupx': ['min_empty_droplets'],
         'integration': ['n_hvg', 'n_latent', 'n_layers', 'max_epochs', 'batch_size', 'devices', 'n_neighbors'],
         'scanvi': ['min_seed_cells', 'max_epochs', 'n_samples_per_label', 'posterior_samples', 'composition_draws'],
+    'annotation_reference': ['min_shared_genes', 'n_hvg', 'n_hidden', 'n_layers', 'n_latent',
+                 'scvi_max_epochs', 'scanvi_max_epochs', 'batch_size', 'posterior_samples'],
         'celltypist': ['min_model_genes'], 'report': ['max_plot_cells'],
         'resources': ['mapping_threads', 'mapping_mem_mb', 'analysis_threads', 'analysis_mem_mb', 'model_mem_mb', 'gpu'],
     }
@@ -82,6 +89,24 @@ def prepare_config(config, defaults, base):
         for key in keys:
             if type(cfg[section][key]) is not int:
                 raise ValueError(f'{section}.{key} must be an integer')
+    for key in ['min_probability', 'max_normalized_entropy']:
+        value = cfg['annotation_reference'][key]
+        if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= 1):
+            raise ValueError(f'annotation_reference.{key} must be in [0, 1]')
+    ref = cfg['annotation_reference']
+    if ref['count_source'] != 'auto' and (not isinstance(ref['count_source'], str) or not ref['count_source'].strip()):
+        raise ValueError('annotation_reference.count_source must be auto, X, raw, or a layer name')
+    if ref['max_cells_per_cluster'] is not None and (type(ref['max_cells_per_cluster']) is not int or ref['max_cells_per_cluster'] <= 0):
+        raise ValueError('annotation_reference.max_cells_per_cluster must be a positive integer or null')
+    if not isinstance(ref['label_key'], str) or not ref['label_key'].strip():
+        raise ValueError('annotation_reference.label_key must be a nonempty string')
+    if not isinstance(ref['batch_key'], str) or not ref['batch_key'].strip():
+        raise ValueError('annotation_reference.batch_key must be a nonempty string')
+    if cfg['annotation']['backend'] == 'scanvi_reference':
+        if not cfg['scanvi']['enabled']:
+            raise ValueError('scanvi_reference backend requires scanvi.enabled=true')
+        if not ref['path']:
+            raise ValueError('annotation_reference.path is required for scanvi_reference backend')
     if type(cfg['seed']) is not int or not 0 <= cfg['seed'] < 2**32:
         raise ValueError('seed must be an integer in [0, 2**32)')
     if not cfg['report']['palette'] or any(not re.fullmatch(r'#[0-9a-fA-F]{6}', c) for c in cfg['report']['palette']):
@@ -133,6 +158,10 @@ def prepare_config(config, defaults, base):
         for key in keys:
             if cfg[section][key]:
                 cfg[section][key] = resolve_path(cfg[section][key], base)
+    if ref['path']:
+        ref['path'] = resolve_path(ref['path'], base)
+        if cfg['annotation']['backend'] == 'scanvi_reference' and not Path(ref['path']).is_file():
+            raise ValueError(f'annotation_reference.path does not exist: {ref["path"]}')
     for key, value in cfg['containers'].items():
         if not value or not isinstance(value, str):
             raise ValueError(f'containers.{key} must specify an image')
