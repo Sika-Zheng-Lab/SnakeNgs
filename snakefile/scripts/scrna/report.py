@@ -16,6 +16,20 @@ from core import aggregate_symbols
 from report_utils import design_notes, distinct_colors, embedded_file, table
 from runtime import logged
 
+MAJOR_CELLTYPE_ORDER = [
+    'Radial_glia', 'Intermediate_progenitor', 'Immature_neuron',
+    'Excitatory_neuron', 'Inhibitory_neuron', 'Astroglia', 'OPC',
+    'Microglia', 'Endothelial', 'Mural', 'Glioblast', 'Neuroepithelial', 'Other']
+CELLTYPE_ORDER = [
+    'RG', 'IP IT', 'IP nonIT', 'IMN IT', 'IMN nonIT',
+    'L2/3 IT CTX Glut', 'L4/5 IT CTX Glut', 'L5 IT CTX Glut',
+    'L5 ET CTX Glut', 'L5 NP CTX Glut', 'L6 IT CTX Glut',
+    'L6 CT CTX Glut', 'L6b CTX Glut', 'L6b/CT ENT Glut',
+    'CLA-EPd-CTX Car3 Glut', 'CGE GABA', 'MGE GABA', 'MGE GABA RG',
+    'Pvalb Gaba', 'Pvalb chandelier Gaba', 'Sst Gaba', 'Sst Chodl Gaba',
+    'Vip Gaba', 'Sncg Gaba', 'Astro-TE NN', 'OPC NN', 'Microglia NN',
+    'Endo NN', 'Peri NN', 'Glioblast', 'NEC']
+
 
 def run(sm):
     cfg = sm.params.cfg
@@ -39,8 +53,30 @@ def run(sm):
     figures = []
     palette = r['palette']
     sample_colors = distinct_colors(sm.params.samples, palette)
-    celltypes = sorted(a.obs['cell_type'].astype(str).unique())
-    major_celltypes = sorted(a.obs['major_cell_type'].astype(str).unique())
+    def ordered_values(key, configured_key):
+        observed = list(dict.fromkeys(a.obs[key].astype(str).to_numpy()))
+        configured = r.get(configured_key, [])
+        return [value for value in configured if value in observed] + [
+            value for value in observed if value not in configured]
+
+    major_celltypes = [value for value in MAJOR_CELLTYPE_ORDER if value in set(a.obs['major_cell_type'].astype(str))]
+    major_celltypes += [value for value in ordered_values('major_cell_type', '') if value not in major_celltypes]
+    observed_celltypes = set(a.obs['cell_type'].astype(str))
+    configured_celltypes = [value for value in CELLTYPE_ORDER if value in observed_celltypes]
+    configured_celltypes += [value for value in ordered_values('cell_type', '') if value not in configured_celltypes]
+    celltype_major = (a.obs[['cell_type', 'major_cell_type']].astype(str)
+                      .drop_duplicates()
+                      .set_index('cell_type')['major_cell_type']
+                      .to_dict())
+    celltypes = []
+    for major in major_celltypes:
+        grouped = [value for value in configured_celltypes
+                    if celltype_major.get(value) == major]
+        grouped.sort(key=lambda value: (
+            CELLTYPE_ORDER.index(value) if value in CELLTYPE_ORDER else len(CELLTYPE_ORDER),
+            value))
+        celltypes.extend(grouped)
+    celltypes.extend(value for value in configured_celltypes if value not in celltypes)
     unknown = cfg['annotation_reference']['unlabeled_category'] if reference_mode else cfg['scanvi']['unlabeled_category']
     cell_colors = distinct_colors(celltypes, palette, r['celltype_colors'], {unknown: '#999999'})
     major_colors = distinct_colors(major_celltypes, palette, r['major_celltype_colors'], {unknown: '#999999'})
@@ -65,7 +101,7 @@ def run(sm):
     def umap(ax, embedding, key, title, colors=None, square=False, wrap_labels=None):
         points = a.obsm[embedding][chosen]
         labels = a.obs[key].astype(str).to_numpy()[chosen]
-        names = sorted(a.obs[key].astype(str).unique())
+        names = celltypes if key == 'cell_type' else major_celltypes if key == 'major_cell_type' else list(dict.fromkeys(a.obs[key].astype(str).to_numpy()))
         colors = colors or (sample_colors if key == 'sample' else distinct_colors(names, palette))
         for name in names:
             keep = labels == name
@@ -78,7 +114,10 @@ def run(sm):
 
     def stacked_composition(ax, frame, colors, title):
         samples = list(sm.params.samples)
-        labels = sorted(frame['cell_type'].astype(str).unique())
+        observed = list(dict.fromkeys(frame['cell_type'].astype(str)))
+        base_order = celltypes if title == 'Subtype composition' else major_celltypes
+        labels = [label for label in base_order if label in observed]
+        labels += [label for label in observed if label not in labels]
         pivot = frame.pivot(index='sample', columns='cell_type', values='expected_fraction').reindex(samples).fillna(0)
         bottom = np.zeros(len(samples))
         for label in labels:
@@ -263,13 +302,19 @@ def run(sm):
     composition = pd.read_csv(sm.input.composition, sep='\t')
     composition_major = pd.read_csv(sm.input.composition_major, sep='\t')
     fig, ax = plt.subplots(figsize=(width, 3))
+    subtype_labels = list(dict.fromkeys(composition['cell_type'].astype(str)))
+    subtype_labels = [label for label in celltypes if label in subtype_labels] + [
+        label for label in subtype_labels if label not in celltypes]
     subtype_composition_colors = distinct_colors(
-        sorted(composition['cell_type'].astype(str).unique()), palette, r['celltype_colors'])
+        subtype_labels, palette, r['celltype_colors'])
     stacked_composition(ax, composition, subtype_composition_colors, 'Subtype composition')
     composition_body = save(fig, 'composition_subtype', 'Expected subtype composition by sample')
     fig, ax = plt.subplots(figsize=(width, 3))
+    major_labels = list(dict.fromkeys(composition_major['cell_type'].astype(str)))
+    major_labels = [label for label in major_celltypes if label in major_labels] + [
+        label for label in major_labels if label not in major_celltypes]
     major_composition_colors = distinct_colors(
-        sorted(composition_major['cell_type'].astype(str).unique()), palette, r['major_celltype_colors'])
+        major_labels, palette, r['major_celltype_colors'])
     stacked_composition(ax, composition_major, major_composition_colors, 'Major cell-type composition')
     composition_body += save(fig, 'composition_major', 'Expected major cell-type composition by sample')
     composition_body += '<h3>Subtype composition and uncertainty</h3>' + table(composition)
