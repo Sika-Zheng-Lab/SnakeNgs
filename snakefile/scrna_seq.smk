@@ -275,7 +275,7 @@ if CFG['annotation']['backend'] == 'celltypist':
 else:
     rule scanvi_reference:
         input:
-            query='analysis/prepared.h5ad',
+            query='analysis/scvi.h5ad',
             reference=CFG['annotation_reference']['path']
         output:
             adata='analysis/final.h5ad',

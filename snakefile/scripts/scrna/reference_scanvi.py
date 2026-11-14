@@ -133,6 +133,7 @@ with logged(snakemake):
     output.obs['major_cell_type'] = pd.Categorical(map_major_cell_types(
         output.obs['cell_type'].astype(str), major_map, cfg['annotation']['unmapped_major_celltype'], p['unlabeled_category']))
     latent = scanvi_model.get_latent_representation()
+    hvg.obsm['X_scANVI'] = latent
     output.obsm['X_scANVI_reference'] = latent[query_rows]
     sc.pp.neighbors(hvg, use_rep='X_scANVI', n_neighbors=min(cfg['integration']['n_neighbors'], hvg.n_obs - 1),
                     key_added='scanvi_reference', random_state=cfg['seed'])
