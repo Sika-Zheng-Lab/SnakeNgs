@@ -12,6 +12,8 @@ All notable changes to this SnakeNgs project will be documented in this file.
 
 ### Changed
 
+- Update the shared MultiQC container and RustQC integration-test dependency from v1.28 to v1.35. Generate ChIP-seq MultiQC overrides without depending on the container's Python installation path.
+
 - `preprocessing_RNAseq.smk`: Replace Picard RNA/insert-size QC with RustQC v0.2.1, using a temporary duplicate-marked BAM without removing reads or altering downstream BAMs. Add optional `rustqc_stranded`, track the GTF as an input, and aggregate per-sample RustQC outputs with fastp/STAR in MultiQC. Metric definitions and paths change; see the RNA-seq usage notes. Unsupported FASTQ, ChIP/ATAC and long-read QC remain unchanged.
 
 - `preprocessing_RNAseq.smk`, `preprocessing_ChIPseq.smk`, `preprocessing_CLIPseq.smk`, `preprocessing_RNAseq_long.smk`:

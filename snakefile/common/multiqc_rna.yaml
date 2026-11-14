@@ -2,7 +2,7 @@
 fastp:
   s_name_filenames: true
 
-# MultiQC 1.28 divides by the event count when parsing junction annotations.
+# MultiQC 1.35 divides by the event count when parsing junction annotations.
 # Keep zero-event RustQC reports on disk, but omit their undefined percentage plot.
 sp:
   # The gene and biotype summaries share a BAM column/sample name. Only the

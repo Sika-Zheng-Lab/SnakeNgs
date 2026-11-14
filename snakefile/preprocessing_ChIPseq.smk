@@ -156,8 +156,7 @@ if layout == "paired":
             cp {input.json} {input.bowtie2log} {input.plotFingerprintlog_qc} {input.plotFingerprintlog_tab} multiqc_preprocessing/log && \
             cp {input.picardlog} multiqc_preprocessing/log/picard && \
             cp {input.InsertSizeMetrics} multiqc_preprocessing/log/picard/CollectInsertSizeMetrics && \
-            cat /usr/local/lib/python3.12/site-packages/multiqc/config_defaults.yaml | \
-            sed -e '$afastp:\\n  s_name_filenames: true' -e '$apicard_config:\\n  s_name_filenames: true' \
+            printf '%s\\n' 'fastp:' '  s_name_filenames: true' 'picard_config:' '  s_name_filenames: true' \
             > multiqc_preprocessing/multiqc_config.yaml && \
             multiqc --config multiqc_preprocessing/multiqc_config.yaml -o multiqc_preprocessing/ multiqc_preprocessing/log >& {log} && \
             rm -rf multiqc_preprocessing/log

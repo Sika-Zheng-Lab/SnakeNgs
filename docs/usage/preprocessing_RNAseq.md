@@ -134,13 +134,13 @@ for the supported inputs and analyses.
 - [quay.io/biocontainers/samtools:1.18--h50ea8bc_1](https://quay.io/repository/biocontainers/samtools)
 - [quay.io/biocontainers/deeptools:3.5.4--pyhdfd78af_1](https://quay.io/repository/biocontainers/deeptools)
 - [ghcr.io/seqeralabs/rustqc:v0.2.1](https://github.com/seqeralabs/RustQC/releases/tag/v0.2.1)
-- [multiqc/multiqc:v1.28](https://hub.docker.com/r/multiqc/multiqc)
+- [multiqc/multiqc:v1.35](https://hub.docker.com/r/multiqc/multiqc)
 
 ## Testing
 
 With Snakemake, pytest, PyYAML and pysam installed, run `pytest tests/rustqc -q`
 from the repository root. For the integration tests, also provide RustQC 0.2.1,
-samtools and MultiQC 1.28 on `PATH`, then run:
+samtools and MultiQC 1.35 on `PATH`, then run:
 
 ``` bash
 RUSTQC_INTEGRATION=1 pytest tests/rustqc -q

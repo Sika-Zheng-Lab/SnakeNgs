@@ -1,6 +1,6 @@
 """DAG regressions and real BAM -> duplicate marking -> RustQC -> MultiQC tests.
 
-Integration tests need rustqc 0.2.1, samtools, MultiQC 1.28 and pysam on PATH.
+Integration tests need rustqc 0.2.1, samtools, MultiQC 1.35 and pysam on PATH.
 Set RUSTQC_INTEGRATION=1 to require these dependencies instead of skipping.
 """
 import hashlib
