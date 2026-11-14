@@ -1,5 +1,21 @@
 # preprocessing_ChIPseq.smk
 
+<!-- rulegraphs:start -->
+
+**preprocessing_ChIPseq_paired**
+
+![preprocessing_ChIPseq_paired rulegraph](../assets/rulegraphs/preprocessing_ChIPseq_paired.slim.svg)
+
+[Full graph](../assets/rulegraphs/preprocessing_ChIPseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+**preprocessing_ChIPseq_single**
+
+![preprocessing_ChIPseq_single rulegraph](../assets/rulegraphs/preprocessing_ChIPseq_single.slim.svg)
+
+[Full graph](../assets/rulegraphs/preprocessing_ChIPseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for preprocessing **paired-end** and **single-end** ChIP-seq/ATAC-seq data. The `layout` parameter in the config file controls the mode.
 
 !!! note
@@ -17,12 +33,6 @@ Snakemake workflow for preprocessing **paired-end** and **single-end** ChIP-seq/
 
 ### Paired-end (`layout: "paired"`)
 
-<figure markdown="span">
-	![preprocessing_ChIPseq.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/preprocessing_ChIPseq_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
-
 1. Quality control using [fastp](https://github.com/OpenGene/fastp) with the default parameters.
 2. Alignment using [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) with the parameter specified in the `config.yaml`.
 3. Convert the SAM file to BAM file and sort using [samtools](http://www.htslib.org/).
@@ -33,12 +43,6 @@ Snakemake workflow for preprocessing **paired-end** and **single-end** ChIP-seq/
 8. Make summary statistics using [MultiQC](https://multiqc.info/).
 
 ### Single-end (`layout: "single"`)
-
-<figure markdown="span">
-	![preprocessing_ChIPseq_single.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/preprocessing_ChIPseq_single_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Quality control using [fastp](https://github.com/OpenGene/fastp) with the default parameters.
 2. Alignment using [Bowtie2](http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) with the parameter specified in the `config.yaml`.

@@ -1,5 +1,15 @@
 # rMATS.smk
 
+<!-- rulegraphs:start -->
+
+**rMATS**
+
+![rMATS rulegraph](../assets/rulegraphs/rMATS.slim.svg)
+
+[Full graph](../assets/rulegraphs/rMATS.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for differential RNA splicing analysis using [rMATS](http://rnaseq-mats.sourceforge.net/).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for differential RNA splicing analysis using [rMATS](http://r
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![rMATS.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/rMATS_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Parse the experiment table to create the sample list.
 2. Run [rMATS](http://rnaseq-mats.sourceforge.net/) with `--novelSS` and the parameters specified in the `config.yaml` file.

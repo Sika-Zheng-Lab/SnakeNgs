@@ -1,5 +1,15 @@
 # Whippet.smk
 
+<!-- rulegraphs:start -->
+
+**Whippet**
+
+![Whippet rulegraph](../assets/rulegraphs/Whippet.slim.svg)
+
+[Full graph](../assets/rulegraphs/Whippet.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for differential RNA splicing analysis using [Whippet](https://github.com/timbitz/Whippet.jl).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for differential RNA splicing analysis using [Whippet](https:
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![Whippet.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/Whippet_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Quantify Percent Spliced In (PSI) values using [Whippet](https://github.com/timbitz/Whippet.jl) `quant`.
 2. Differential splicing analysis using [Whippet](https://github.com/timbitz/Whippet.jl) `delta`.

@@ -1,5 +1,21 @@
 # scrna_seq.smk
 
+<!-- rulegraphs:start -->
+
+**scrna_seq_counts**
+
+![scrna_seq_counts rulegraph](../assets/rulegraphs/scrna_seq_counts.slim.svg)
+
+[Full graph](../assets/rulegraphs/scrna_seq_counts.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+**scrna_seq_fastq**
+
+![scrna_seq_fastq rulegraph](../assets/rulegraphs/scrna_seq_fastq.slim.svg)
+
+[Full graph](../assets/rulegraphs/scrna_seq_fastq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for end-to-end primary analysis of droplet-based single-cell and single-nucleus RNA-seq data. It processes raw FASTQ files with [kb-python](https://www.kallistobus.tools/), collects independent Cell Ranger metrics, performs quality control and correction, integrates samples, annotates cell types, propagates annotation uncertainty, and generates a self-contained English HTML report.
 
 !!! note

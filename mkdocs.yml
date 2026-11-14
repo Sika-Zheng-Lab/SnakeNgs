@@ -79,6 +79,8 @@ edit_uri: edit/main/docs/
 nav:
 - Home: index.md
 - Installation: installation.md
+- Pipeline rulegraphs: rulegraphs.md
+- Rulegraph maintenance: rulegraphs-maintenance.md
 - Tutorial:
   - QC and mapping for RNA-seq: tutorial/RNAseq_preprocessing.md
   - UMI count from single-nucleus RNA-seq: tutorial/snRNAseq_count.md

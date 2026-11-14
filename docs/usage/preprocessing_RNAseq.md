@@ -1,5 +1,21 @@
 # preprocessing_RNAseq.smk
 
+<!-- rulegraphs:start -->
+
+**preprocessing_RNAseq_paired**
+
+![preprocessing_RNAseq_paired rulegraph](../assets/rulegraphs/preprocessing_RNAseq_paired.slim.svg)
+
+[Full graph](../assets/rulegraphs/preprocessing_RNAseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+**preprocessing_RNAseq_single**
+
+![preprocessing_RNAseq_single rulegraph](../assets/rulegraphs/preprocessing_RNAseq_single.slim.svg)
+
+[Full graph](../assets/rulegraphs/preprocessing_RNAseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for preprocessing **paired-end** and **single-end** bulk RNA-seq data. The `layout` parameter in the config file controls the mode.
 
 !!! note

@@ -1,5 +1,15 @@
 # kb-nac.smk
 
+<!-- rulegraphs:start -->
+
+**kb_nac**
+
+![kb_nac rulegraph](../assets/rulegraphs/kb_nac.slim.svg)
+
+[Full graph](../assets/rulegraphs/kb_nac.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for UMI counting from single-nucleus RNA-seq data with [kb-python](https://github.com/pachterlab/kb_python), a Python wrapper for [kallisto and bustools](https://www.kallistobus.tools/).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for UMI counting from single-nucleus RNA-seq data with [kb-py
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![kb-nac.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/kb-nac_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Build a kallisto index using the reference genome and transcriptome by `kb ref` with the parameter `--workflow nac`.
 2. Quantify UMI counts using `kb count` with the parameter `--workflow nac --h5ad --gene-names --sum total --filter bustools --overwrite`.

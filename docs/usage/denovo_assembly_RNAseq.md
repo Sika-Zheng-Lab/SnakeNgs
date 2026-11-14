@@ -1,5 +1,21 @@
 # denovo_assembly_RNAseq.smk
 
+<!-- rulegraphs:start -->
+
+**denovo_assembly_RNAseq_paired**
+
+![denovo_assembly_RNAseq_paired rulegraph](../assets/rulegraphs/denovo_assembly_RNAseq_paired.slim.svg)
+
+[Full graph](../assets/rulegraphs/denovo_assembly_RNAseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+**denovo_assembly_RNAseq_single**
+
+![denovo_assembly_RNAseq_single rulegraph](../assets/rulegraphs/denovo_assembly_RNAseq_single.slim.svg)
+
+[Full graph](../assets/rulegraphs/denovo_assembly_RNAseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for **de novo transcriptome assembly** from short-read RNA-seq data using [Trinity](https://github.com/trinityrnaseq/trinityrnaseq), with ORF prediction by [TransDecoder](https://github.com/TransDecoder/TransDecoder) and gene annotation by [BLAST+](https://blast.ncbi.nlm.nih.gov/Blast.cgi) against UniProt/Swiss-Prot. Supports both **paired-end** and **single-end** reads via the `layout` parameter.
 
 !!! note
@@ -10,19 +26,7 @@ Snakemake workflow for **de novo transcriptome assembly** from short-read RNA-se
 
 ### Paired-end (`layout: "paired"`)
 
-<figure markdown="span">
-	![denovo_assembly_RNAseq.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/denovo_assembly_RNAseq_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
-
 ### Single-end (`layout: "single"`)
-
-<figure markdown="span">
-	![denovo_assembly_RNAseq_single.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/denovo_assembly_RNAseq_single_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 ### Pipeline steps
 

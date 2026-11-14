@@ -1,5 +1,15 @@
 # footprinting_timeseries_ATACseq.smk
 
+<!-- rulegraphs:start -->
+
+**footprinting_timeseries_ATACseq**
+
+![footprinting_timeseries_ATACseq rulegraph](../assets/rulegraphs/footprinting_timeseries_ATACseq.slim.svg)
+
+[Full graph](../assets/rulegraphs/footprinting_timeseries_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for time series footprinting analysis of ATAC-seq data using [TOBIAS](https://github.com/loosolab/TOBIAS/).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for time series footprinting analysis of ATAC-seq data using 
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![footprinting_timeseries_ATACseq.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/footprinting_timeseries_ATACseq_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Merge peak resions from all samples using [bedtools](https://bedtools.readthedocs.io/en/latest/) `merge`.
 2. Merge bam files from all samples using [samtools](http://www.htslib.org/) `merge`.

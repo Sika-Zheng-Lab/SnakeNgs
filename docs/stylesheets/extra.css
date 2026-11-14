@@ -55,3 +55,14 @@
 .md-footer {
   background: var(--gradient-header);
 }
+
+/* SVGs are separate documents: keep labels readable in both Material themes. */
+.md-typeset img[src*="assets/rulegraphs/"] {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  background: white;
+  border-radius: 0.4rem;
+  padding: 0.75rem;
+}

@@ -1,5 +1,15 @@
 # differential_ATACseq.smk
 
+<!-- rulegraphs:start -->
+
+**differential_ATACseq**
+
+![differential_ATACseq rulegraph](../assets/rulegraphs/differential_ATACseq.slim.svg)
+
+[Full graph](../assets/rulegraphs/differential_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for differential analysis of ATAC-seq data.
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for differential analysis of ATAC-seq data.
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![differential_ATACseq.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/differential_ATACseq_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Merge peak resions from all samples using [bedtools](https://bedtools.readthedocs.io/en/latest/) `merge`.
 2. Read count for each peak region using [featureCounts](http://subread.sourceforge.net/).

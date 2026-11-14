@@ -1,5 +1,15 @@
 # callpeak_ChIPseq.smk
 
+<!-- rulegraphs:start -->
+
+**callpeak_ChIPseq**
+
+![callpeak_ChIPseq rulegraph](../assets/rulegraphs/callpeak_ChIPseq.slim.svg)
+
+[Full graph](../assets/rulegraphs/callpeak_ChIPseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for peak calling of ChIP-seq data.
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for peak calling of ChIP-seq data.
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![callpeak_ChIPseq.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/callpeak_ChIPseq_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Peak calling using [MACS](https://github.com/macs3-project/MACS) with the parameter specified in the `config.yaml`.
 2. Convert bedgraph files to bigwig files using [bedgraphtobigwig](https://genome.ucsc.edu/goldenPath/help/bigWig.html).

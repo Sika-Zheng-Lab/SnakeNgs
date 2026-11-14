@@ -1,5 +1,15 @@
 # bam2cram.smk
 
+<!-- rulegraphs:start -->
+
+**bam2cram**
+
+![bam2cram rulegraph](../assets/rulegraphs/bam2cram.slim.svg)
+
+[Full graph](../assets/rulegraphs/bam2cram.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for file format conversion from BAM to CRAM to compress the file size.
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for file format conversion from BAM to CRAM to compress the f
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![bam2cram.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/bam2cram_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Convert BAM files to CRAM files using [samtools](http://www.htslib.org/).
 2. Make CRAM index files (`.crai`) using [samtools](http://www.htslib.org/).

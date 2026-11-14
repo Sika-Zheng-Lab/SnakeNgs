@@ -1,5 +1,15 @@
 # bam2bw_RNAseq.smk
 
+<!-- rulegraphs:start -->
+
+**bam2bw_RNAseq**
+
+![bam2bw_RNAseq rulegraph](../assets/rulegraphs/bam2bw_RNAseq.slim.svg)
+
+[Full graph](../assets/rulegraphs/bam2bw_RNAseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for converting RNA-seq BAM files to BigWig files with [deepTools](https://deeptools.readthedocs.io/en/develop/) `bamCoverage`.
 
 !!! note

@@ -1,5 +1,15 @@
 # MAJIQ.smk
 
+<!-- rulegraphs:start -->
+
+**MAJIQ**
+
+![MAJIQ rulegraph](../assets/rulegraphs/MAJIQ.slim.svg)
+
+[Full graph](../assets/rulegraphs/MAJIQ.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for differential RNA splicing analysis using [MAJIQ](https://majiq.biociphers.org/).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for differential RNA splicing analysis using [MAJIQ](https://
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![MAJIQ.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/MAJIQ_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Parse the experiment table to create a setting file for MAJIQ.
 2. Build splicegraph using [MAJIQ](https://majiq.biociphers.org/) `build`.

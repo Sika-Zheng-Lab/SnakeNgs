@@ -1,5 +1,15 @@
 # cellranger_count.smk
 
+<!-- rulegraphs:start -->
+
+**cellranger_count**
+
+![cellranger_count rulegraph](../assets/rulegraphs/cellranger_count.slim.svg)
+
+[Full graph](../assets/rulegraphs/cellranger_count.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for gene count quantification from single-cell/nucleus RNA-seq data by [Cell Ranger](https://github.com/10XGenomics/cellranger).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for gene count quantification from single-cell/nucleus RNA-se
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![cellranger_count.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/cellranger_count_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Make aliases for the input FASTQ files and convert the file names to the 10x Genomics format (e.g., `sample_S1_L001_R1_001.fastq.gz`).
 2. Run `cellranger count` to quantify gene expression from the input FASTQ files.

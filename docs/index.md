@@ -48,7 +48,7 @@ snakemake -s /path/to/SnakeNgs/snakefile/preprocessing_RNAseq.smk \
         - [footprinting_ATACseq.smk](usage/footprinting_ATACseq.md)
         - [footprinting_timeseries_ATACseq.smk](usage/footprinting_timeseries_ATACseq.md)
     - iCLIP-seq & HITSCLIP
-        - [preprocessing_iCLIPseq.smk](usage/preprocessing_iCLIPseq.md)
-        - [preprocessing_HITSCLIP.smk](usage/preprocessing_HITSCLIP.md)
+        - [preprocessing_iCLIPseq.smk](usage/preprocessing_CLIPseq.md)
+        - [preprocessing_HITSCLIP.smk](usage/preprocessing_CLIPseq.md)
     - File format conversion
         - [bam2cram.smk](usage/bam2cram.md)

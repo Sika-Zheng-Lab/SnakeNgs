@@ -1,5 +1,15 @@
 # STARsolo.smk
 
+<!-- rulegraphs:start -->
+
+**STARsolo**
+
+![STARsolo rulegraph](../assets/rulegraphs/STARsolo.slim.svg)
+
+[Full graph](../assets/rulegraphs/STARsolo.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for gene count quantification from single-cell/nucleus RNA-seq data by [STARsolo](https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for gene count quantification from single-cell/nucleus RNA-se
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![STARsolo.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/STARsolo_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Alignment using [STAR](https://github.com/alexdobin/STAR) with the parameter `--soloType CB_UMI_Simple`.
 2. Make index for bam files using [samtools](http://www.htslib.org/).

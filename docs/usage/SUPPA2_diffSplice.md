@@ -1,5 +1,15 @@
 # SUPPA2_diffSplice.smk
 
+<!-- rulegraphs:start -->
+
+**SUPPA2_diffSplice**
+
+![SUPPA2_diffSplice rulegraph](../assets/rulegraphs/SUPPA2_diffSplice.slim.svg)
+
+[Full graph](../assets/rulegraphs/SUPPA2_diffSplice.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for differential RNA splicing analysis using [SUPPA2](https://github.com/comprna/SUPPA).
 
 !!! note
@@ -7,12 +17,6 @@ Snakemake workflow for differential RNA splicing analysis using [SUPPA2](https:/
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
 ## Workflow
-
-<figure markdown="span">
-	![SUPPA2_diffSplice.smk rulegraph](https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/img/SUPPA2_diffSplice_rulegraph.svg?raw=true){ width="1000" align="center" }
-</figure>
-
-<span style="font-size: 0.8em; color: rgba(0, 0, 0, 0.4);">The rulegraph was created by [snakevision](https://github.com/OpenOmics/snakevision).</span>
 
 1. Quantify transcript abundances (TPM) for each sample using [salmon](https://combine-lab.github.io/salmon/).
 2. Merge the quantification results into a single file.

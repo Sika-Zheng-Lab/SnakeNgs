@@ -1,5 +1,21 @@
 # preprocessing_CLIPseq.smk
 
+<!-- rulegraphs:start -->
+
+**preprocessing_CLIPseq_HITSCLIP**
+
+![preprocessing_CLIPseq_HITSCLIP rulegraph](../assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.slim.svg)
+
+[Full graph](../assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+**preprocessing_CLIPseq_iCLIPseq**
+
+![preprocessing_CLIPseq_iCLIPseq rulegraph](../assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.slim.svg)
+
+[Full graph](../assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+
+<!-- rulegraphs:end -->
+
 Snakemake workflow for preprocessing CLIP-seq data (HITS-CLIP, iCLIP-seq, etc.).
 
 !!! note
