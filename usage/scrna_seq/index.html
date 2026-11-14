@@ -1,0 +1,2455 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Snakemake Pipeline for NGS data">
+      
+      
+        <meta name="author" content="Naoto Kubota">
+      
+      
+        <link rel="canonical" href="https://naotokubota.github.io/SnakeNgs/usage/scrna_seq/">
+      
+      
+        <link rel="prev" href="../LeafCutter/">
+      
+      
+        <link rel="next" href="../kb-nac/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>scrna_seq.smk - SnakeNgs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#scrna_seqsmk" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SnakeNgs" class="md-header__button md-logo" aria-label="SnakeNgs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SnakeNgs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              scrna_seq.smk
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Sika-Zheng-Lab/SnakeNgs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sika-Zheng-Lab/SnakeNgs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SnakeNgs" class="md-nav__button md-logo" aria-label="SnakeNgs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SnakeNgs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Sika-Zheng-Lab/SnakeNgs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sika-Zheng-Lab/SnakeNgs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorial
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/RNAseq_preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    QC and mapping for RNA-seq
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/snRNAseq_count/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UMI count from single-nucleus RNA-seq
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/ChIP-ATAC_preprocessing_callpeak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    QC, mapping, and peak calling for ChIP-seq/ATAC-seq
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Usage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RNA-seq
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    RNA-seq
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preprocessing_RNAseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    preprocessing_RNAseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../denovo_assembly_RNAseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    denovo_assembly_RNAseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bam2bw_RNAseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bam2bw_RNAseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rMATS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rMATS.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SUPPA2_diffSplice/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SUPPA2_diffSplice.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Whippet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Whippet.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MAJIQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MAJIQ.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LeafCutter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LeafCutter.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    snRNA-seq
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    snRNA-seq
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    scrna_seq.smk
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    scrna_seq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiment-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-from-existing-kb-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting from existing kb matrices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analysis-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysis details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Analysis details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-control-and-ambient-rna-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality control and ambient RNA correction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#library-depth-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Library depth normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotation-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Annotation backends
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanvi-uncertainty-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scANVI uncertainty propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure style
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-images-used-in-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker images used in the workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kb-nac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    kb-nac.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STARsolo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    STARsolo.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cellranger_count/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    cellranger_count.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ChIP-seq
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ChIP-seq
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preprocessing_ChIPseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    preprocessing_ChIPseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../callpeak_ChIPseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    callpeak_ChIPseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATAC-seq
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ATAC-seq
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../callpeak_ATACseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    callpeak_ATACseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../differential_ATACseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    differential_ATACseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../footprinting_ATACseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    footprinting_ATACseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../footprinting_timeseries_ATACseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    footprinting_timeseries_ATACseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLIP-seq
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CLIP-seq
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preprocessing_CLIPseq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    preprocessing_CLIPseq.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File format conversion
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    File format conversion
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bam2cram/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    bam2cram.smk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiment-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-from-existing-kb-matrices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting from existing kb matrices
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#analysis-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysis details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Analysis details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quality-control-and-ambient-rna-correction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality control and ambient RNA correction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#library-depth-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Library depth normalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#annotation-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Annotation backends
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanvi-uncertainty-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        scANVI uncertainty propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#figure-style" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Figure style
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-images-used-in-the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker images used in the workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="scrna_seqsmk">scrna_seq.smk<a class="headerlink" href="#scrna_seqsmk" title="Permanent link">&para;</a></h1>
+<p>Snakemake workflow for end-to-end primary analysis of droplet-based single-cell and single-nucleus RNA-seq data. It processes raw FASTQ files with <a href="https://www.kallistobus.tools/">kb-python</a>, collects independent Cell Ranger metrics, performs quality control and correction, integrates samples, annotates cell types, propagates annotation uncertainty, and generates a self-contained English HTML report.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please make sure that <a href="https://sylabs.io/guides/3.7/user-guide/quick_start.html">Singularity</a> or <a href="https://apptainer.org/docs/user/latest/">Apptainer</a> and Snakemake 8.30 or later are installed, and that the <a href="https://github.com/Sika-Zheng-Lab/SnakeNgs">SnakeNgs</a> repository has been cloned. A reference FASTA, GTF, and the required indexes must also be available.</p>
+<p>The workflow currently supports paired FASTQ files from 10x droplet-based assays. Plate-based assays, multiome assays, antibody capture, and multiplex demultiplexing are outside its current scope.</p>
+</div>
+<h2 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code>flowchart TD
+  F[FASTQ files] --&gt; K[kb standard or nac quantification]
+  F --&gt; CR[Cell Ranger metrics]
+  K --&gt; Q[Per-sample QC and Scrublet]
+  K --&gt; E[Unfiltered droplets for ambient profile]
+  Q --&gt; S[Per-sample SoupX correction]
+  E --&gt; S
+  S --&gt; D[Integer-count preservation and depth matching]
+  D --&gt; V[scVI integration and UMAP]
+  V --&gt; C[CellTypist annotation]
+  C --&gt; A[scANVI uncertainty propagation]
+  A --&gt; H[HTML report, H5AD, and tables]
+  CR --&gt; H
+</code></pre></div></td></tr></table></div>
+<ol>
+<li>Quantify gene expression with kb-python using either the <code>standard</code> or <code>nac</code> workflow.</li>
+<li>Run Cell Ranger on the same FASTQ files to collect mapping and library metrics. Cell Ranger matrices are not used downstream.</li>
+<li>Apply per-sample QC and identify doublets with <a href="https://github.com/swolock/scrublet">Scrublet</a>.</li>
+<li>Estimate and remove ambient RNA separately for each library with <a href="https://github.com/constantAmateur/SoupX">SoupX</a>.</li>
+<li>Preserve integer UMI counts, optionally match sequencing depth between samples, and create log-normalized expression values.</li>
+<li>Correct technical batch effects and calculate a latent representation with <a href="https://docs.scvi-tools.org/en/1.3.3/user_guide/models/scvi.html">scVI</a>.</li>
+<li>Assign initial cell-type labels with <a href="https://celltypist.readthedocs.io/">CellTypist</a>.</li>
+<li>Refine labels with scANVI and retain posterior probabilities and uncertainty statistics.</li>
+<li>Generate a self-contained English HTML report and publication-ready PNG, SVG, and PDF figures.</li>
+</ol>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
+<p>Copy the example configuration and experiment table:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>cp<span class="w"> </span>examples/scrna_seq/config.yaml<span class="w"> </span>my_scrna_config.yaml
+cp<span class="w"> </span>examples/scrna_seq/samples.tsv<span class="w"> </span>my_samples.tsv
+</code></pre></div></td></tr></table></div>
+<p>Build the analysis and SoupX containers from the repository root:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>apptainer<span class="w"> </span>build<span class="w"> </span>--fakeroot<span class="w"> </span>containers/scrna-analysis.sif<span class="w"> </span>containers/scrna-analysis.def
+apptainer<span class="w"> </span>build<span class="w"> </span>--fakeroot<span class="w"> </span>containers/scrna-soupx.sif<span class="w"> </span>containers/scrna-soupx.def
+</code></pre></div></td></tr></table></div>
+<p>The definition files use repository-relative paths in <code>%files</code>, so these commands must be run from the repository root. If fakeroot is unavailable on the cluster, build the SIF files on a compatible host and transfer them to the cluster.</p>
+<p>Inspect the workflow before execution:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>snakemake<span class="w"> </span>-s<span class="w"> </span>/path/to/SnakeNgs/snakefile/scrna_seq.smk<span class="w"> </span><span class="se">\</span>
+--configfile<span class="w"> </span>/path/to/my_scrna_config.yaml<span class="w"> </span><span class="se">\</span>
+--cores<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="se">\</span>
+--dry-run
+</code></pre></div></td></tr></table></div>
+<p>Run the workflow:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>snakemake<span class="w"> </span>-s<span class="w"> </span>/path/to/SnakeNgs/snakefile/scrna_seq.smk<span class="w"> </span><span class="se">\</span>
+--configfile<span class="w"> </span>/path/to/my_scrna_config.yaml<span class="w"> </span><span class="se">\</span>
+--cores<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="se">\</span>
+--use-singularity<span class="w"> </span><span class="se">\</span>
+--rerun-incomplete<span class="w"> </span><span class="se">\</span>
+--singularity-args<span class="w"> </span><span class="s1">'--bind /path/to/fastq,/path/to/reference,/path/to/results'</span>
+</code></pre></div></td></tr></table></div>
+<p>Every executable rule specifies a container. Always use <code>--use-singularity</code>. FASTQ staging uses symbolic links, so both the source FASTQ directories and the output directory must be bind-mounted.</p>
+<p>For GPU execution, set <code>integration.accelerator: gpu</code> and <code>resources.gpu: 1</code>, request a GPU through the Snakemake executor or cluster profile, and add <code>--nv</code>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>--singularity-args<span class="w"> </span><span class="s1">'--nv --bind /path/to/fastq,/path/to/reference,/path/to/results'</span>
+</code></pre></div></td></tr></table></div>
+<p>Relative paths are resolved from the directory in which Snakemake is launched before the workflow changes to <code>workdir</code>. Absolute paths are recommended for cluster execution.</p>
+<h3 id="configuration-file">Configuration file<a class="headerlink" href="#configuration-file" title="Permanent link">&para;</a></h3>
+<p><code>config.yaml</code> should contain the following sections. See <a href="https://github.com/Sika-Zheng-Lab/SnakeNgs/blob/develop/examples/scrna_seq/config.yaml"><code>examples/scrna_seq/config.yaml</code></a> for a complete configuration.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">workdir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/output</span>
+<span class="nt">sample_table</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/samples.tsv</span>
+<span class="nt">input_mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">fastq</span>
+<span class="nt">seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+
+<span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">kb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/kb-python.sif</span>
+<span class="w">  </span><span class="nt">cellranger</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker://litd/docker-cellranger:v9.0.0</span>
+<span class="w">  </span><span class="nt">analysis</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/scrna-analysis.sif</span>
+<span class="w">  </span><span class="nt">soupx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/scrna-soupx.sif</span>
+
+<span class="nt">reference</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">fasta</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/genome.fa</span>
+<span class="w">  </span><span class="nt">gtf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/genes.gtf</span>
+<span class="w">  </span><span class="nt">index</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/kb/index.idx</span>
+<span class="w">  </span><span class="nt">t2g</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/kb/t2g.txt</span>
+<span class="w">  </span><span class="nt">cdna_t2c</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/kb/cdna_t2c.txt</span>
+<span class="w">  </span><span class="nt">intron_t2c</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/kb/intron_t2c.txt</span>
+
+<span class="nt">kb</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">workflow</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nac</span>
+<span class="w">  </span><span class="nt">technology</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10XV3</span>
+<span class="w">  </span><span class="nt">count_layer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+<span class="w">  </span><span class="nt">gene_symbol_column</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gene_name</span>
+
+<span class="nt">cellranger</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">transcriptome</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/cellranger/reference</span>
+<span class="w">  </span><span class="nt">include_introns</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">create_bam</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="nt">integration</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">batch_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">batch</span>
+<span class="w">  </span><span class="nt">n_hvg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span>
+<span class="w">  </span><span class="nt">n_latent</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+<span class="w">  </span><span class="nt">max_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+<span class="w">  </span><span class="nt">accelerator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gpu</span>
+<span class="w">  </span><span class="nt">devices</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="nt">celltypist</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Mouse_Isocortex_Hippocampus.pkl</span>
+<span class="w">  </span><span class="nt">model_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/path/to/Mouse_Isocortex_Hippocampus.pkl</span>
+<span class="w">  </span><span class="nt">majority_voting</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">scanvi</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">unlabeled_category</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Unknown</span>
+<span class="w">  </span><span class="nt">max_epochs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">  </span><span class="nt">posterior_samples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</code></pre></div></td></tr></table></div>
+<p>The main configuration groups are:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kb.workflow</code></td>
+<td>Use <code>nac</code> for nucleus RNA quantification with intronic reads or <code>standard</code> for conventional scRNA-seq quantification.</td>
+</tr>
+<tr>
+<td><code>reference.build</code></td>
+<td>Build a kb reference from FASTA and GTF when <code>true</code>; use the supplied index and transcript-to-gene files when <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>cellranger.enabled</code></td>
+<td>Run Cell Ranger to collect metrics from the same FASTQ files. Its expression matrix is not used downstream.</td>
+</tr>
+<tr>
+<td><code>qc.*</code></td>
+<td>Configure gene, UMI, mitochondrial, hemoglobin, and within-sample MAD filters.</td>
+</tr>
+<tr>
+<td><code>scrublet.*</code></td>
+<td>Configure library-level doublet simulation and classification.</td>
+</tr>
+<tr>
+<td><code>soupx.*</code></td>
+<td>Configure empty-droplet selection, clustering, and contamination estimation.</td>
+</tr>
+<tr>
+<td><code>depth.*</code></td>
+<td>Configure integer UMI downsampling between samples and optional stratification.</td>
+</tr>
+<tr>
+<td><code>integration.*</code></td>
+<td>Configure batch keys, covariates, HVGs, latent dimensions, training epochs, neighbors, and CPU/GPU execution.</td>
+</tr>
+<tr>
+<td><code>celltypist.*</code></td>
+<td>Select the model by name or path and configure its checksum, majority voting, and seed-label thresholds.</td>
+</tr>
+<tr>
+<td><code>scanvi.*</code></td>
+<td>Configure seed-cell requirements, training epochs, posterior sampling, <code>Unknown</code> thresholds, and composition draws.</td>
+</tr>
+<tr>
+<td><code>annotation.*</code></td>
+<td>Map CellTypist/scANVI subtypes to configurable major cell types and select the fallback for unmapped subtypes.</td>
+</tr>
+<tr>
+<td><code>report.*</code></td>
+<td>Configure the title, fonts, dimensions, resolution, palette, cell-type colors, and marker genes.</td>
+</tr>
+<tr>
+<td><code>resources.*</code></td>
+<td>Configure threads, memory in MB, and GPU count for mapping, preprocessing, modeling, and reporting.</td>
+</tr>
+</tbody>
+</table>
+<p><code>resources.analysis_mem_mb</code> controls memory for QC, SoupX, depth matching, and report generation. <code>resources.model_mem_mb</code> controls memory for scVI, CellTypist, and scANVI. Cell Ranger receives its memory limit in GB after conversion from <code>mem_mb</code>.</p>
+<p>If only a CellTypist result is required, set <code>scanvi.enabled: false</code>. The report will state that scANVI uncertainty intervals were not calculated.</p>
+<h3 id="experiment-table">Experiment table<a class="headerlink" href="#experiment-table" title="Permanent link">&para;</a></h3>
+<p>Each row represents one droplet-capture library. Sample names may contain letters, numbers, underscores, and hyphens. Additional sequencing lanes for the same library are supplied as comma-separated R1 and R2 paths in matching order.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>sample  R1  R2  batch   donor   condition   age sex
+sample1 /path/to/sample1_L001_R1.fastq.gz,/path/to/sample1_L002_R1.fastq.gz /path/to/sample1_L001_R2.fastq.gz,/path/to/sample1_L002_R2.fastq.gz batch1  donor1  control P19 F
+sample2 /path/to/sample2_L001_R1.fastq.gz,/path/to/sample2_L002_R1.fastq.gz /path/to/sample2_L001_R2.fastq.gz,/path/to/sample2_L002_R2.fastq.gz batch2  donor2  treated P19 F
+</code></pre></div></td></tr></table></div>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sample</code></td>
+<td>Unique library identifier and the unit used for doublet and ambient-RNA estimation.</td>
+</tr>
+<tr>
+<td><code>R1</code>, <code>R2</code></td>
+<td>FASTQ paths for read 1 and read 2. Separate multiple lanes with commas.</td>
+</tr>
+<tr>
+<td><code>batch</code></td>
+<td>Technical batch to correct. Do not substitute the biological condition unless they are the same experimental factor.</td>
+</tr>
+<tr>
+<td><code>donor</code></td>
+<td>Biological individual. Use the same value for multiple libraries from the same individual.</td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>Biological condition, such as control or treatment.</td>
+</tr>
+<tr>
+<td><code>age</code>, <code>sex</code>, and other columns</td>
+<td>Optional metadata that can also be used to stratify depth matching.</td>
+</tr>
+</tbody>
+</table>
+<p>The workflow rejects duplicate sample IDs, repeated FASTQ files, unequal numbers of R1 and R2 files, and missing required metadata before creating the DAG. Libraries containing multiple unresolved donors must be demultiplexed before running this workflow.</p>
+<h3 id="starting-from-existing-kb-matrices">Starting from existing kb matrices<a class="headerlink" href="#starting-from-existing-kb-matrices" title="Permanent link">&para;</a></h3>
+<p>Set <code>input_mode: counts</code> to skip FASTQ mapping. The experiment table must then provide <code>kb_filtered</code> and <code>kb_unfiltered</code> H5AD files. A <code>cellranger_metrics</code> column is also required when <code>cellranger.enabled: true</code>.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>sample  kb_filtered kb_unfiltered   cellranger_metrics  batch   donor   condition
+sample1 /path/to/filtered.h5ad  /path/to/unfiltered.h5ad    /path/to/metrics_summary.csv    batch1  donor1  control
+</code></pre></div></td></tr></table></div>
+<p>For kb <code>nac</code> output, <code>kb.count_layer: auto</code> sums the <code>mature</code>, <code>nascent</code>, and <code>ambiguous</code> layers exactly once. Although kb-python 0.28.2 <code>--sum total</code> writes a separate MTX file, the H5AD <code>X</code> matrix still contains mature counts and is therefore not assumed to represent total UMI counts. For the <code>standard</code> workflow, <code>auto</code> uses <code>X</code>. Specify a layer name only when total counts have already been stored in that layer.</p>
+<p>Gene IDs are retained in the final object. Gene symbols are obtained from <code>kb.gene_symbol_column</code> or from a three-column <code>reference.t2g</code> file containing transcript ID, gene ID, and gene symbol. Duplicate symbols are summed only in the annotation copy; the original gene-level matrix is preserved.</p>
+<h2 id="analysis-details">Analysis details<a class="headerlink" href="#analysis-details" title="Permanent link">&para;</a></h2>
+<h3 id="quality-control-and-ambient-rna-correction">Quality control and ambient RNA correction<a class="headerlink" href="#quality-control-and-ambient-rna-correction" title="Permanent link">&para;</a></h3>
+<p>QC is calculated independently for each sample using genes per cell, total UMIs, mitochondrial percentage, hemoglobin percentage, and the MAD of <code>log1p(UMIs/genes)</code>. A metric with a MAD of zero does not produce a MAD-based exclusion. Scrublet is then run separately for each library. The workflow stops if Scrublet cannot determine a threshold unless a threshold is supplied explicitly.</p>
+<p>kb's <code>bustools filter</code> constructs a called-cell allowlist, corrects nearby barcode records to that allowlist, and recounts UMIs. The filtered matrix may therefore differ slightly from the corresponding rows in the unfiltered matrix. The workflow uses the filtered matrix for QC and retained-cell counts, excludes every called barcode from the unfiltered matrix when estimating the SoupX ambient profile, and records the count differences in the QC summary for auditing.</p>
+<p>SoupX uses <code>autoEstCont()</code> by default and rounds corrected values to integer counts with <code>roundToInt=TRUE</code> for the scVI/scANVI count likelihood. If automatic estimation is unsuitable for the dataset, <code>soupx.contamination_fraction</code> can be set after inspecting the diagnostic results.</p>
+<p>Sample-specific random seeds are deterministic signed 32-bit integers, making them safe for NumPy, Scanpy, igraph, and the Annoy backend used by Scrublet.</p>
+<p>After samples are combined, <code>obs_names</code> contains globally unique IDs in <code>sample:barcode</code> format and has the index name <code>cell_id</code>. The original within-library barcode remains in <code>obs['barcode']</code>.</p>
+<h3 id="library-depth-normalization">Library depth normalization<a class="headerlink" href="#library-depth-normalization" title="Permanent link">&para;</a></h3>
+<p>The workflow keeps two distinct normalization operations:</p>
+<ol>
+<li>Within-cell library-size normalization scales each cell to 10,000 total counts and applies <code>log1p</code>. These values are used for uncorrected PCA/UMAP, CellTypist, and marker plots.</li>
+<li>Between-sample depth matching applies binomial thinning to integer SoupX-corrected UMIs. For each sample, <code>p = target / median</code>. A null target uses the shallowest sample median within each <code>depth.groupby</code> stratum. Upsampling is rejected.</li>
+</ol>
+<p>By default, scVI and scANVI use the full-depth <code>counts</code> layer, while <code>counts_depthmatched</code> is retained for sensitivity analyses. Set <code>depth.model_layer: counts_depthmatched</code> and use a separate work directory to train on depth-matched counts and compare both results.</p>
+<h3 id="annotation-backends">Annotation backends<a class="headerlink" href="#annotation-backends" title="Permanent link">&para;</a></h3>
+<p>The default <code>celltypist</code> backend preserves the original workflow: CellTypist prediction, high-confidence seed selection, and query-only scANVI refinement. The <code>scanvi_reference</code> backend is a separate label-transfer workflow: a labeled external AnnData reference and the unlabeled SnakeNgs query are harmonized, used to train a joint scVI model, and passed directly to semi-supervised scANVI. It does not download or run CellTypist and does not create query pseudo-labels before mapping.</p>
+<p>Set <code>annotation.backend: scanvi_reference</code> and provide <code>annotation_reference.path</code>. The reference must contain raw integer UMI counts, labels, and a batch column. <code>count_source: auto</code> inspects <code>.X</code>, <code>.raw</code>, and layers and fails rather than silently using normalized data. Genes are matched by configured symbols or identifiers, duplicate identifiers are summed deterministically, and reference/query batches are namespaced. Reference HVGs are selected from raw counts with a batch-aware Seurat-v3 strategy; the query-only scVI integration model remains available separately for QC and diagnostics.</p>
+<p>The reference model stores <code>X_scANVI_reference</code>, <code>X_umap_scANVI_reference</code>, posterior class probabilities, entropy, and the original predicted label. Only query cells are written to <code>analysis/final.h5ad</code>, compositions, and <code>analysis/cells.tsv.gz</code>.</p>
+<h3 id="scanvi-uncertainty-propagation">scANVI uncertainty propagation<a class="headerlink" href="#scanvi-uncertainty-propagation" title="Permanent link">&para;</a></h3>
+<p>CellTypist maximum scores, the margin between the top two scores, agreement with majority voting, and the number of seed cells are used to select training labels. Majority voting uses fine-grained Leiden clusters calculated from the scVI neighbor graph. The workflow stops when fewer than two cell classes have sufficient high-confidence seeds.</p>
+<p>After scANVI training, repeated posterior predictions are used to store class-wise mean probabilities, standard deviations, prediction entropy, and information associated with latent sampling. Cells that fail the configured maximum-probability or normalized-entropy thresholds are labeled <code>Unknown</code>.</p>
+<p>The composition table sums class probabilities to calculate expected cell counts, including the probability mass of cells displayed as <code>Unknown</code>. Its 2.5th and 97.5th percentiles quantify label uncertainty conditional on the observed cells and fitted model. They do not represent biological replicate variation, mapping uncertainty, SoupX uncertainty, reference-model misclassification, unknown cell types, or posterior uncertainty in model weights, and should not be interpreted as confidence intervals or p-values for biological group comparisons.</p>
+<p>Define <code>annotation.major_celltype_map</code> for the CellTypist model and tissue being analyzed. The workflow stores both <code>cell_type</code> (subtype) and <code>major_cell_type</code> in the final AnnData object. Subtypes absent from the mapping are assigned to <code>annotation.unmapped_major_celltype</code> and listed in the report for review. The annotation section shows separate subtype and major-cell-type UMAPs. Composition is shown as stacked bars at both levels; every category receives a unique color within its plot. Optional colors can be specified with <code>report.celltype_colors</code> and <code>report.major_celltype_colors</code>.</p>
+<h2 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Path under <code>workdir</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>report/report.html</code></td>
+<td>Self-contained English HTML report with embedded figures and links to PDF/SVG downloads.</td>
+</tr>
+<tr>
+<td><code>report/figures/</code></td>
+<td>Publication-ready PNG, SVG, and PDF versions of each figure.</td>
+</tr>
+<tr>
+<td><code>analysis/final.h5ad</code></td>
+<td>Final AnnData object with gene IDs, count layers, latent coordinates, UMAP, cell types, and class probabilities.</td>
+</tr>
+<tr>
+<td><code>analysis/cells.tsv.gz</code></td>
+<td>Metadata, QC measurements, labels, and uncertainty statistics for retained cells.</td>
+</tr>
+<tr>
+<td><code>qc/{sample}/cells.tsv.gz</code></td>
+<td>Exclusion reasons, doublet scores, and retention status for every called cell.</td>
+</tr>
+<tr>
+<td><code>analysis/depth.tsv</code></td>
+<td>Depth-matching targets, probabilities, observed medians, and zero-cell counts.</td>
+</tr>
+<tr>
+<td><code>analysis/empty_after_correction.tsv</code></td>
+<td>Cells removed because they contained zero UMIs after SoupX or depth matching.</td>
+</tr>
+<tr>
+<td><code>analysis/composition.tsv</code></td>
+<td>Hard and expected counts, fractions, and conditional uncertainty intervals by sample.</td>
+</tr>
+<tr>
+<td><code>analysis/composition_major.tsv</code></td>
+<td>The corresponding composition and uncertainty table after summing subtype probabilities into major cell types.</td>
+</tr>
+<tr>
+<td><code>models/scvi/</code>, <code>models/scanvi/</code></td>
+<td>Saved models. Ordered HVG names are stored in <code>uns['scvi_hvg_names']</code>.</td>
+</tr>
+<tr>
+<td><code>models/celltypist.json</code></td>
+<td>CellTypist model identity and SHA256 checksum.</td>
+</tr>
+<tr>
+<td><code>provenance/</code>, <code>logs/</code>, <code>benchmarks/</code></td>
+<td>Resolved configuration, source hashes, software versions, logs, and resource measurements.</td>
+</tr>
+</tbody>
+</table>
+<p>The count layers have the following contracts:</p>
+<ul>
+<li><code>layers['counts_raw']</code>: unmodified integer kb UMIs for retained cells before ambient correction.</li>
+<li><code>layers['counts']</code>: integer SoupX-corrected UMIs, or raw kb UMIs when SoupX is disabled.</li>
+<li><code>layers['counts_depthmatched']</code>: integer counts after binomial thinning, present when depth matching is enabled.</li>
+<li><code>X</code>: <code>log1p(CP10k)</code> calculated from the configured model layer.</li>
+</ul>
+<p>The final object retains all genes. A separate HVG view is used only during model training. Reload a saved scANVI model using the stored HVG order:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">anndata</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ad</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scvi</span>
+
+<span class="n">adata</span> <span class="o">=</span> <span class="n">ad</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="s1">'analysis/final.h5ad'</span><span class="p">)</span>
+<span class="n">hvg</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">uns</span><span class="p">[</span><span class="s1">'scvi_hvg_names'</span><span class="p">])]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">scvi</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">SCANVI</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'models/scanvi'</span><span class="p">,</span> <span class="n">adata</span><span class="o">=</span><span class="n">hvg</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="figure-style">Figure style<a class="headerlink" href="#figure-style" title="Permanent link">&para;</a></h3>
+<p>The default report style uses an 8 pt font, a 180 mm figure width, 400 dpi raster output, and a color-vision-friendly Okabe-Ito palette. If Arial is unavailable, the workflow falls back to Liberation Sans and then DejaVu Sans, and records the selected font in the report.</p>
+<p>PDF output uses Type 42 fonts, SVG output retains editable text, and dense scatter points are rasterized when needed. If the analysis contains more than eight cell types, specify <code>report.celltype_colors</code> or split the final publication figure. Inspect PDF or SVG output at its final printed size before submission.</p>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
+<p>Run the unit and workflow tests from the repository root:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-q<span class="w"> </span>tests/scrna
+</code></pre></div></td></tr></table></div>
+<p>Create a synthetic dataset and run the complete containerized smoke test:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>python<span class="w"> </span>tests/scrna/make_fixture.py<span class="w"> </span>/tmp/scrna-smoke<span class="w"> </span>--train-model
+snakemake<span class="w"> </span>-s<span class="w"> </span>snakefile/scrna_seq.smk<span class="w"> </span><span class="se">\</span>
+--configfile<span class="w"> </span>/tmp/scrna-smoke/config.yaml<span class="w"> </span><span class="se">\</span>
+--cores<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+--use-singularity
+python<span class="w"> </span>tests/scrna/verify_smoke.py<span class="w"> </span>/tmp/scrna-smoke/results<span class="w"> </span>--reload-models
+</code></pre></div></td></tr></table></div>
+<p>The synthetic fixture checks workflow connectivity and file contracts. Dataset-specific QC thresholds, reference-model suitability, biological signal preservation after integration, and inferred cell identities must be assessed from the report generated for the experimental data.</p>
+<h2 id="docker-images-used-in-the-workflow">Docker images used in the workflow<a class="headerlink" href="#docker-images-used-in-the-workflow" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://quay.io/repository/biocontainers/kb-python">kb-python 0.28.2 Biocontainer</a></li>
+<li><a href="https://hub.docker.com/r/litd/docker-cellranger">Cell Ranger 9.0.0 container</a></li>
+<li><code>containers/scrna-analysis.def</code>, containing the pinned Python analysis environment</li>
+<li><code>containers/scrna-soupx.def</code>, containing SoupX 1.6.2 and its R dependencies</li>
+</ul>
+<p>Top-level dependencies are pinned. Complete package manifests are stored in <code>/opt/scrna-python-freeze.txt</code> and <code>/opt/soupx-conda-explicit.txt</code> inside the respective images. Preserve the built SIF files or use immutable image digests for reproducible reruns.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/pachterlab/kb_python/tree/v0.28.2">kb-python 0.28.2 source</a></li>
+<li><a href="https://github.com/swolock/scrublet">Scrublet</a></li>
+<li><a href="https://github.com/constantAmateur/SoupX">SoupX</a></li>
+<li><a href="https://docs.scvi-tools.org/en/1.3.3/user_guide/models/scvi.html">scVI</a></li>
+<li><a href="https://docs.scvi-tools.org/en/1.3.3/api/reference/scvi.model.SCANVI.html">scANVI API</a></li>
+<li><a href="https://celltypist.readthedocs.io/en/latest/celltypist.annotate.html">CellTypist</a></li>
+<li><a href="https://www.10xgenomics.com/support/software/cell-ranger/9.0/resources/cr-command-line-arguments">Cell Ranger 9 command-line arguments</a></li>
+<li><a href="https://www.cell.com/figureguidelines">Cell Press figure guidelines</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../LeafCutter/" class="md-footer__link md-footer__link--prev" aria-label="Previous: LeafCutter.smk">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                LeafCutter.smk
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../kb-nac/" class="md-footer__link md-footer__link--next" aria-label="Next: kb-nac.smk">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                kb-nac.smk
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2024 Naoto Kubota
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Sika-Zheng-Lab" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://hub.docker.com/u/naotokubota" target="_blank" rel="noopener" title="hub.docker.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/naoto_kubota" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M357.2 48h70.6L273.6 224.2 455 464H313L201.7 318.6 74.5 464H3.8l164.9-188.5L-5.2 48h145.6l100.5 132.9zm-24.8 373.8h39.1L119.1 88h-42z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "navigation.instant", "navigation.instant.progress", "navigation.instant.prefetch", "navigation.tracking", "navigation.footer", "content.code.copy", "content.code.select", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
