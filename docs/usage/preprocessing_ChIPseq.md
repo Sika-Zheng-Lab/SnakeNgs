@@ -6,6 +6,13 @@ Snakemake workflow for preprocessing **paired-end** and **single-end** ChIP-seq/
 
     Please make sure that you have [Singularity](https://sylabs.io/guides/3.7/user-guide/quick_start.html) and [Snakemake](https://snakemake.readthedocs.io/en/stable/) installed on your system and cloned the [SnakeNgs](https://github.com/Sika-Zheng-Lab/SnakeNgs) repository.
 
+!!! note "RustQC support"
+
+    RustQC v0.2.1 only implements RNA alignment QC and requires a GTF annotation.
+    It has no ChIP/ATAC mode or fingerprint equivalent. This workflow therefore
+    retains fastp, Picard insert-size QC and deepTools fingerprinting. See the
+    [RNA-seq migration notes](preprocessing_RNAseq.md#rustqc-configuration-and-outputs).
+
 ## Workflow
 
 ### Paired-end (`layout: "paired"`)

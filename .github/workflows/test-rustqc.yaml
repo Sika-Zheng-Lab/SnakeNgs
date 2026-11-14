@@ -1,0 +1,33 @@
+name: Test RustQC migration
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  qc-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test dependencies
+        run: |
+          pip install 'snakemake>=8,<10' 'multiqc==1.28' pytest pysam
+          sudo apt-get update
+          sudo apt-get install -y samtools
+      - name: Install RustQC v0.2.1
+        run: |
+          mkdir -p "$RUNNER_TEMP/rustqc"
+          cd "$RUNNER_TEMP/rustqc"
+          curl -fsSL https://github.com/seqeralabs/RustQC/releases/download/v0.2.1/rustqc-linux-x86_64.tar.gz -o rustqc-linux-x86_64.tar.gz
+          echo '2fa72e96a4dbeae06eaf53f3f75850ba4f8b82b086d09e736c4e214078bf804a  rustqc-linux-x86_64.tar.gz' | sha256sum --check
+          tar xzf rustqc-linux-x86_64.tar.gz --strip-components=1
+          echo "$RUNNER_TEMP/rustqc" >> "$GITHUB_PATH"
+      - name: Test DAGs and execute QC on synthetic paired/single BAMs
+        env:
+          RUSTQC_INTEGRATION: "1"
+        run: pytest tests/rustqc -q

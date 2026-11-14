@@ -136,9 +136,12 @@ rnaseq_tutorial/
 │   │   ├── SRR33238275_Aligned.out.bam
 │   │   └── SRR33238275_Log.final.out
 │   └── ...
-├── metrics/
-│   ├── SRR33238275.picard.analysis.CollectRnaSeqMetrics
-│   ├── SRR33238275.picard.analysis.CollectInsertSizeMetrics
+├── rustqc/
+│   ├── SRR33238275/
+│   │   ├── rustqc_summary.json
+│   │   ├── samtools/
+│   │   ├── rseqc/
+│   │   └── ...
 │   └── ...
 ├── bigwig/
 │   ├── SRR33238275.bw
@@ -152,10 +155,9 @@ rnaseq_tutorial/
 - **`fastp/log/*.html`** — Per-sample QC reports showing read quality, adapter content, and filtering statistics.
 - **`star/*_Aligned.out.bam`** — Sorted BAM files with uniquely mapped reads (`--outFilterMultimapNmax 1`).
 - **`star/*_Log.final.out`** — STAR alignment summary with mapping rates.
-- **`metrics/*.CollectRnaSeqMetrics`** — Picard RNA-seq metrics including the percentage of reads mapping to coding, UTR, intronic, and intergenic regions.
-- **`metrics/*.CollectInsertSizeMetrics`** — Insert size distribution for paired-end data.
+- **`rustqc/<sample>/`** — RustQC alignment, duplication, RNA coverage and insert-size metrics, with a JSON run summary. These replace the previous Picard metric files; their definitions and formats differ.
 - **`bigwig/*.bw`** — Normalized coverage tracks that can be loaded in genome browsers such as [IGV](https://igv.org/) or the [UCSC Genome Browser](https://genome.ucsc.edu/).
-- **`multiqc/multiqc_report.html`** — Aggregated QC report combining fastp, STAR, and Picard metrics across all samples.
+- **`multiqc/multiqc_report.html`** — Aggregated QC report combining fastp, STAR, and RustQC metrics across all samples.
 
 Open `multiqc/multiqc_report.html` in a web browser to review the overall quality of your experiment at a glance.
 

@@ -12,6 +12,8 @@ All notable changes to this SnakeNgs project will be documented in this file.
 
 ### Changed
 
+- `preprocessing_RNAseq.smk`: Replace Picard RNA/insert-size QC with RustQC v0.2.1, using a temporary duplicate-marked BAM without removing reads or altering downstream BAMs. Add optional `rustqc_stranded`, track the GTF as an input, and aggregate per-sample RustQC outputs with fastp/STAR in MultiQC. Metric definitions and paths change; see the RNA-seq usage notes. Unsupported FASTQ, ChIP/ATAC and long-read QC remain unchanged.
+
 - `preprocessing_RNAseq.smk`, `preprocessing_ChIPseq.smk`, `preprocessing_CLIPseq.smk`, `preprocessing_RNAseq_long.smk`:
   - Added backward-compatible support for grouped samples in `config["samples"]` using dict form (e.g., `{ "sample1": ["runA", "runB"] }`) in addition to legacy list form.
   - Added conditional `merge_fastq` rules to concatenate run-level FASTQ files into per-sample files under `fastq_merged/` before QC/mapping when dict-form samples are provided.

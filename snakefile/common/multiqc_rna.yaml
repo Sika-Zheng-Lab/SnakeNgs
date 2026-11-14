@@ -1,0 +1,15 @@
+# Scan only the current workflow's declared inputs, preserving sample names.
+fastp:
+  s_name_filenames: true
+
+# MultiQC 1.28 divides by the event count when parsing junction annotations.
+# Keep zero-event RustQC reports on disk, but omit their undefined percentage plot.
+sp:
+  # The gene and biotype summaries share a BAM column/sample name. Only the
+  # gene summary belongs in this module; biotypes have their own custom plot.
+  featurecounts:
+    exclude_fn: '*.featureCounts.biotype.tsv.summary'
+  rseqc/junction_annotation:
+    exclude_contents_re:
+      - '(?m)^Total splicing  Events:\s*0$'
+      - '(?m)^Total splicing  Junctions:\s*0$'

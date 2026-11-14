@@ -15,6 +15,11 @@ workdir: config["workdir"]
 star_index = config["star_index"]
 gtf = config["gtf"]
 layout = config["layout"]
+if layout not in ("paired", "single"):
+    raise ValueError("layout must be 'paired' or 'single'")
+rustqc_stranded = config.get("rustqc_stranded", "unstranded")
+if rustqc_stranded not in ("unstranded", "forward", "reverse"):
+    raise ValueError("rustqc_stranded must be 'unstranded', 'forward', or 'reverse'")
 
 include: "common/containers.smk"
 include: "common/functions.smk"
@@ -45,12 +50,12 @@ def _qc_input_single(wildcards):
 if layout == "paired":
 
     rule all:
+        default_target: True
         input:
             multiqc = "multiqc/multiqc_report.html",
             bam = expand("star/{sample}/{sample}_Aligned.out.bam", sample = samples),
             bigwig = expand("bigwig/{sample}.bw", sample = samples),
-            RnaSeqMetrics = expand("metrics/{sample}.picard.analysis.CollectRnaSeqMetrics", sample = samples),
-            InsertSizeMetrics = expand("metrics/{sample}.picard.analysis.CollectInsertSizeMetrics", sample = samples)
+            rustqc = expand("rustqc/{sample}", sample = samples)
 
     if samples_dict:
 
@@ -113,55 +118,16 @@ if layout == "paired":
             "--outFilterMultimapNmax 1 "
             "--readFilesIn {input.R1} {input.R2} --readFilesCommand zcat --outFileNamePrefix {params.outdir} >& {log}"
 
-    rule CollectInsertSizeMetrics:
-        container:
-            CONTAINERS["picard"]
-        input:
-            bam = "star/{sample}/{sample}_Aligned.out.bam"
-        output:
-            InsertSizeMetrics = "metrics/{sample}.picard.analysis.CollectInsertSizeMetrics",
-            InsertSizeMetrics_pdf = "metrics/{sample}.picard.analysis.CollectInsertSizeMetrics.pdf"
-        threads:
-            1
-        benchmark:
-            "benchmark/picard_CollectInsertSizeMetrics_{sample}.txt"
-        log:
-            "log/picard_CollectInsertSizeMetrics_{sample}.log"
-        shell:
-            "picard CollectInsertSizeMetrics -I {input.bam} -O {output.InsertSizeMetrics} --Histogram_FILE {output.InsertSizeMetrics_pdf} >& {log}"
-
-    rule multiqc:
-        container:
-            CONTAINERS["multiqc"]
-        input:
-            json = expand("fastp/log/{sample}.json", sample = samples),
-            starlog = expand("star/{sample}/{sample}_Log.final.out", sample = samples),
-            RnaSeqMetrics = expand("metrics/{sample}.picard.analysis.CollectRnaSeqMetrics", sample = samples),
-            InsertSizeMetrics = expand("metrics/{sample}.picard.analysis.CollectInsertSizeMetrics", sample = samples)
-        output:
-            "multiqc/multiqc_report.html"
-        benchmark:
-            "benchmark/multiqc.txt"
-        log:
-            "log/multiqc.log"
-        shell:
-            """
-            rm -rf multiqc && \
-            mkdir -p multiqc/log && \
-            cp {input.json} {input.starlog} {input.RnaSeqMetrics} {input.InsertSizeMetrics} multiqc/log && \
-            cat /usr/local/lib/python3.12/site-packages/multiqc/config_defaults.yaml | sed -e '$afastp:\\n  s_name_filenames: true' > multiqc/multiqc_config.yaml && \
-            multiqc --config multiqc/multiqc_config.yaml -o multiqc/ multiqc/log >& {log} && \
-            rm -rf multiqc/log
-            """
 
 else:
 
     rule all:
+        default_target: True
         input:
             multiqc = "multiqc/multiqc_report.html",
             bam = expand("star/{sample}/{sample}_Aligned.out.bam", sample = samples),
             bigwig = expand("bigwig/{sample}.bw", sample = samples),
-            RnaSeqMetrics = expand("metrics/{sample}.picard.analysis.CollectRnaSeqMetrics", sample = samples)
+            rustqc = expand("rustqc/{sample}", sample = samples)
 
     if samples_dict:
 
@@ -219,24 +185,22 @@ else:
             "--outFilterMultimapNmax 1 "
             "--readFilesIn {input.R1} --readFilesCommand zcat --outFileNamePrefix {params.outdir} >& {log}"
 
-    rule multiqc:
-        container:
-            CONTAINERS["multiqc"]
-        input:
-            json = expand("fastp/log/{sample}.json", sample = samples),
-            starlog = expand("star/{sample}/{sample}_Log.final.out", sample = samples),
-            RnaSeqMetrics = expand("metrics/{sample}.picard.analysis.CollectRnaSeqMetrics", sample = samples)
-        output:
-            "multiqc/multiqc_report.html"
-        benchmark:
-            "benchmark/multiqc.txt"
-        log:
-            "log/multiqc.log"
-        shell:
-            "rm -rf multiqc && "
-            "mkdir -p multiqc/log && "
-            "cp {input.json} {input.starlog} {input.RnaSeqMetrics} multiqc/log && "
-            "multiqc -o multiqc/ multiqc/log >& {log} && "
-            "rm -rf multiqc/log"
+rule multiqc:
+    container:
+        CONTAINERS["multiqc"]
+    input:
+        json = expand("fastp/log/{sample}.json", sample = samples),
+        starlog = expand("star/{sample}/{sample}_Log.final.out", sample = samples),
+        rustqc = expand("rustqc/{sample}", sample = samples),
+        config = workflow.source_path("common/multiqc_rna.yaml")
+    output:
+        "multiqc/multiqc_report.html"
+    benchmark:
+        "benchmark/multiqc.txt"
+    log:
+        "log/multiqc.log"
+    shell:
+        "multiqc --force --config {input.config:q} -o multiqc/ "
+        "{input.json:q} {input.starlog:q} {input.rustqc:q} > {log:q} 2>&1"
 
 ## DON'T CHANGE ABOVE THIS LINE ##

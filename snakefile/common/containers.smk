@@ -4,6 +4,7 @@ CONTAINERS = {
     "samtools": "docker://quay.io/biocontainers/samtools:1.18--h50ea8bc_1",
     "picard": "docker://quay.io/biocontainers/picard:3.1.1--hdfd78af_0",
     "deeptools": "docker://quay.io/biocontainers/deeptools:3.5.4--pyhdfd78af_1",
+    "rustqc": "docker://ghcr.io/seqeralabs/rustqc:v0.2.1",
     "multiqc": "docker://multiqc/multiqc:v1.28",
     "bowtie2": "docker://quay.io/biocontainers/bowtie2:2.5.2--py39h6fed5c7_0",
     "macs2": "docker://quay.io/biocontainers/macs2:2.2.9.1--py39hf95cd2a_0",
