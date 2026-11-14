@@ -1,0 +1,25 @@
+# Overlay this file on the standard sc/snRNA-seq example configuration.
+# Paths are resolved relative to the Snakemake launch directory.
+annotation:
+  backend: scanvi_reference
+
+annotation_reference:
+  path: /path/to/reference.h5ad
+  count_source: auto
+  gene_symbol_column: gene_symbol
+  label_key: cell_type
+  major_label_key: major_cell_type
+  batch_key: reference_batch
+  max_cells_per_cluster: null
+  min_shared_genes: 1000
+  n_hvg: 4000
+  n_hidden: 512
+  n_layers: 4
+  n_latent: 50
+  scvi_max_epochs: 300
+  scanvi_max_epochs: 100
+  batch_size: 128
+  unlabeled_category: Unknown
+  posterior_samples: 30
+  min_probability: 0.7
+  max_normalized_entropy: 0.5
