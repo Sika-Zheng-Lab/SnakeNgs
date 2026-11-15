@@ -6,7 +6,7 @@
 
 ![SUPPA2_diffSplice rulegraph](../assets/rulegraphs/SUPPA2_diffSplice.slim.svg)
 
-[Full graph](../assets/rulegraphs/SUPPA2_diffSplice.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/SUPPA2_diffSplice.slim.animated.svg) · [Full graph](../assets/rulegraphs/SUPPA2_diffSplice.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

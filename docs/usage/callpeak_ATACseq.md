@@ -6,7 +6,7 @@
 
 ![callpeak_ATACseq rulegraph](../assets/rulegraphs/callpeak_ATACseq.slim.svg)
 
-[Full graph](../assets/rulegraphs/callpeak_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/callpeak_ATACseq.slim.animated.svg) · [Full graph](../assets/rulegraphs/callpeak_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

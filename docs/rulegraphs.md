@@ -8,7 +8,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![LeafCutter](assets/rulegraphs/LeafCutter.slim.svg)
 
-[Full SVG](assets/rulegraphs/LeafCutter.svg) · [DOT source](assets/rulegraphs/LeafCutter.dot)
+[Animated slim SVG](assets/rulegraphs/LeafCutter.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/LeafCutter.animated.svg) · [Full SVG](assets/rulegraphs/LeafCutter.svg) · [DOT source](assets/rulegraphs/LeafCutter.dot)
 
 ## MAJIQ
 
@@ -16,7 +16,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![MAJIQ](assets/rulegraphs/MAJIQ.slim.svg)
 
-[Full SVG](assets/rulegraphs/MAJIQ.svg) · [DOT source](assets/rulegraphs/MAJIQ.dot)
+[Animated slim SVG](assets/rulegraphs/MAJIQ.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/MAJIQ.animated.svg) · [Full SVG](assets/rulegraphs/MAJIQ.svg) · [DOT source](assets/rulegraphs/MAJIQ.dot)
 
 ## ONT_plasmid_assembly
 
@@ -24,7 +24,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![ONT_plasmid_assembly](assets/rulegraphs/ONT_plasmid_assembly.slim.svg)
 
-[Full SVG](assets/rulegraphs/ONT_plasmid_assembly.svg) · [DOT source](assets/rulegraphs/ONT_plasmid_assembly.dot)
+[Animated slim SVG](assets/rulegraphs/ONT_plasmid_assembly.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/ONT_plasmid_assembly.animated.svg) · [Full SVG](assets/rulegraphs/ONT_plasmid_assembly.svg) · [DOT source](assets/rulegraphs/ONT_plasmid_assembly.dot)
 
 ## STARsolo
 
@@ -32,7 +32,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![STARsolo](assets/rulegraphs/STARsolo.slim.svg)
 
-[Full SVG](assets/rulegraphs/STARsolo.svg) · [DOT source](assets/rulegraphs/STARsolo.dot)
+[Animated slim SVG](assets/rulegraphs/STARsolo.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/STARsolo.animated.svg) · [Full SVG](assets/rulegraphs/STARsolo.svg) · [DOT source](assets/rulegraphs/STARsolo.dot)
 
 ## SUPPA2_diffSplice
 
@@ -40,7 +40,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![SUPPA2_diffSplice](assets/rulegraphs/SUPPA2_diffSplice.slim.svg)
 
-[Full SVG](assets/rulegraphs/SUPPA2_diffSplice.svg) · [DOT source](assets/rulegraphs/SUPPA2_diffSplice.dot)
+[Animated slim SVG](assets/rulegraphs/SUPPA2_diffSplice.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/SUPPA2_diffSplice.animated.svg) · [Full SVG](assets/rulegraphs/SUPPA2_diffSplice.svg) · [DOT source](assets/rulegraphs/SUPPA2_diffSplice.dot)
 
 ## Whippet
 
@@ -48,7 +48,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![Whippet](assets/rulegraphs/Whippet.slim.svg)
 
-[Full SVG](assets/rulegraphs/Whippet.svg) · [DOT source](assets/rulegraphs/Whippet.dot)
+[Animated slim SVG](assets/rulegraphs/Whippet.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/Whippet.animated.svg) · [Full SVG](assets/rulegraphs/Whippet.svg) · [DOT source](assets/rulegraphs/Whippet.dot)
 
 ## bam2bw_RNAseq
 
@@ -56,7 +56,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![bam2bw_RNAseq](assets/rulegraphs/bam2bw_RNAseq.slim.svg)
 
-[Full SVG](assets/rulegraphs/bam2bw_RNAseq.svg) · [DOT source](assets/rulegraphs/bam2bw_RNAseq.dot)
+[Animated slim SVG](assets/rulegraphs/bam2bw_RNAseq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/bam2bw_RNAseq.animated.svg) · [Full SVG](assets/rulegraphs/bam2bw_RNAseq.svg) · [DOT source](assets/rulegraphs/bam2bw_RNAseq.dot)
 
 ## bam2cram
 
@@ -64,7 +64,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![bam2cram](assets/rulegraphs/bam2cram.slim.svg)
 
-[Full SVG](assets/rulegraphs/bam2cram.svg) · [DOT source](assets/rulegraphs/bam2cram.dot)
+[Animated slim SVG](assets/rulegraphs/bam2cram.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/bam2cram.animated.svg) · [Full SVG](assets/rulegraphs/bam2cram.svg) · [DOT source](assets/rulegraphs/bam2cram.dot)
 
 ## callpeak_ATACseq
 
@@ -72,7 +72,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![callpeak_ATACseq](assets/rulegraphs/callpeak_ATACseq.slim.svg)
 
-[Full SVG](assets/rulegraphs/callpeak_ATACseq.svg) · [DOT source](assets/rulegraphs/callpeak_ATACseq.dot)
+[Animated slim SVG](assets/rulegraphs/callpeak_ATACseq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/callpeak_ATACseq.animated.svg) · [Full SVG](assets/rulegraphs/callpeak_ATACseq.svg) · [DOT source](assets/rulegraphs/callpeak_ATACseq.dot)
 
 ## callpeak_ChIPseq
 
@@ -80,7 +80,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![callpeak_ChIPseq](assets/rulegraphs/callpeak_ChIPseq.slim.svg)
 
-[Full SVG](assets/rulegraphs/callpeak_ChIPseq.svg) · [DOT source](assets/rulegraphs/callpeak_ChIPseq.dot)
+[Animated slim SVG](assets/rulegraphs/callpeak_ChIPseq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/callpeak_ChIPseq.animated.svg) · [Full SVG](assets/rulegraphs/callpeak_ChIPseq.svg) · [DOT source](assets/rulegraphs/callpeak_ChIPseq.dot)
 
 ## cellranger_count
 
@@ -88,7 +88,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![cellranger_count](assets/rulegraphs/cellranger_count.slim.svg)
 
-[Full SVG](assets/rulegraphs/cellranger_count.svg) · [DOT source](assets/rulegraphs/cellranger_count.dot)
+[Animated slim SVG](assets/rulegraphs/cellranger_count.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/cellranger_count.animated.svg) · [Full SVG](assets/rulegraphs/cellranger_count.svg) · [DOT source](assets/rulegraphs/cellranger_count.dot)
 
 ## denovo_assembly_RNAseq
 
@@ -96,13 +96,13 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![denovo_assembly_RNAseq_paired](assets/rulegraphs/denovo_assembly_RNAseq_paired.slim.svg)
 
-[Full SVG](assets/rulegraphs/denovo_assembly_RNAseq_paired.svg) · [DOT source](assets/rulegraphs/denovo_assembly_RNAseq_paired.dot)
+[Animated slim SVG](assets/rulegraphs/denovo_assembly_RNAseq_paired.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/denovo_assembly_RNAseq_paired.animated.svg) · [Full SVG](assets/rulegraphs/denovo_assembly_RNAseq_paired.svg) · [DOT source](assets/rulegraphs/denovo_assembly_RNAseq_paired.dot)
 
 ### denovo_assembly_RNAseq_single
 
 ![denovo_assembly_RNAseq_single](assets/rulegraphs/denovo_assembly_RNAseq_single.slim.svg)
 
-[Full SVG](assets/rulegraphs/denovo_assembly_RNAseq_single.svg) · [DOT source](assets/rulegraphs/denovo_assembly_RNAseq_single.dot)
+[Animated slim SVG](assets/rulegraphs/denovo_assembly_RNAseq_single.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/denovo_assembly_RNAseq_single.animated.svg) · [Full SVG](assets/rulegraphs/denovo_assembly_RNAseq_single.svg) · [DOT source](assets/rulegraphs/denovo_assembly_RNAseq_single.dot)
 
 ## differential_ATACseq
 
@@ -110,7 +110,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![differential_ATACseq](assets/rulegraphs/differential_ATACseq.slim.svg)
 
-[Full SVG](assets/rulegraphs/differential_ATACseq.svg) · [DOT source](assets/rulegraphs/differential_ATACseq.dot)
+[Animated slim SVG](assets/rulegraphs/differential_ATACseq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/differential_ATACseq.animated.svg) · [Full SVG](assets/rulegraphs/differential_ATACseq.svg) · [DOT source](assets/rulegraphs/differential_ATACseq.dot)
 
 ## footprinting_ATACseq
 
@@ -118,7 +118,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![footprinting_ATACseq](assets/rulegraphs/footprinting_ATACseq.slim.svg)
 
-[Full SVG](assets/rulegraphs/footprinting_ATACseq.svg) · [DOT source](assets/rulegraphs/footprinting_ATACseq.dot)
+[Animated slim SVG](assets/rulegraphs/footprinting_ATACseq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/footprinting_ATACseq.animated.svg) · [Full SVG](assets/rulegraphs/footprinting_ATACseq.svg) · [DOT source](assets/rulegraphs/footprinting_ATACseq.dot)
 
 ## footprinting_timeseries_ATACseq
 
@@ -126,7 +126,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![footprinting_timeseries_ATACseq](assets/rulegraphs/footprinting_timeseries_ATACseq.slim.svg)
 
-[Full SVG](assets/rulegraphs/footprinting_timeseries_ATACseq.svg) · [DOT source](assets/rulegraphs/footprinting_timeseries_ATACseq.dot)
+[Animated slim SVG](assets/rulegraphs/footprinting_timeseries_ATACseq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/footprinting_timeseries_ATACseq.animated.svg) · [Full SVG](assets/rulegraphs/footprinting_timeseries_ATACseq.svg) · [DOT source](assets/rulegraphs/footprinting_timeseries_ATACseq.dot)
 
 ## kb-nac
 
@@ -134,7 +134,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![kb_nac](assets/rulegraphs/kb_nac.slim.svg)
 
-[Full SVG](assets/rulegraphs/kb_nac.svg) · [DOT source](assets/rulegraphs/kb_nac.dot)
+[Animated slim SVG](assets/rulegraphs/kb_nac.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/kb_nac.animated.svg) · [Full SVG](assets/rulegraphs/kb_nac.svg) · [DOT source](assets/rulegraphs/kb_nac.dot)
 
 ## preprocessing_CLIPseq
 
@@ -142,13 +142,13 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![preprocessing_CLIPseq_HITSCLIP](assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.slim.svg)
 
-[Full SVG](assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.svg) · [DOT source](assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.dot)
+[Animated slim SVG](assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.animated.svg) · [Full SVG](assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.svg) · [DOT source](assets/rulegraphs/preprocessing_CLIPseq_HITSCLIP.dot)
 
 ### preprocessing_CLIPseq_iCLIPseq
 
 ![preprocessing_CLIPseq_iCLIPseq](assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.slim.svg)
 
-[Full SVG](assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.svg) · [DOT source](assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.dot)
+[Animated slim SVG](assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.animated.svg) · [Full SVG](assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.svg) · [DOT source](assets/rulegraphs/preprocessing_CLIPseq_iCLIPseq.dot)
 
 ## preprocessing_ChIPseq
 
@@ -156,13 +156,13 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![preprocessing_ChIPseq_paired](assets/rulegraphs/preprocessing_ChIPseq_paired.slim.svg)
 
-[Full SVG](assets/rulegraphs/preprocessing_ChIPseq_paired.svg) · [DOT source](assets/rulegraphs/preprocessing_ChIPseq_paired.dot)
+[Animated slim SVG](assets/rulegraphs/preprocessing_ChIPseq_paired.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/preprocessing_ChIPseq_paired.animated.svg) · [Full SVG](assets/rulegraphs/preprocessing_ChIPseq_paired.svg) · [DOT source](assets/rulegraphs/preprocessing_ChIPseq_paired.dot)
 
 ### preprocessing_ChIPseq_single
 
 ![preprocessing_ChIPseq_single](assets/rulegraphs/preprocessing_ChIPseq_single.slim.svg)
 
-[Full SVG](assets/rulegraphs/preprocessing_ChIPseq_single.svg) · [DOT source](assets/rulegraphs/preprocessing_ChIPseq_single.dot)
+[Animated slim SVG](assets/rulegraphs/preprocessing_ChIPseq_single.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/preprocessing_ChIPseq_single.animated.svg) · [Full SVG](assets/rulegraphs/preprocessing_ChIPseq_single.svg) · [DOT source](assets/rulegraphs/preprocessing_ChIPseq_single.dot)
 
 ## preprocessing_RNAseq_long
 
@@ -170,7 +170,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![preprocessing_RNAseq_long](assets/rulegraphs/preprocessing_RNAseq_long.slim.svg)
 
-[Full SVG](assets/rulegraphs/preprocessing_RNAseq_long.svg) · [DOT source](assets/rulegraphs/preprocessing_RNAseq_long.dot)
+[Animated slim SVG](assets/rulegraphs/preprocessing_RNAseq_long.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/preprocessing_RNAseq_long.animated.svg) · [Full SVG](assets/rulegraphs/preprocessing_RNAseq_long.svg) · [DOT source](assets/rulegraphs/preprocessing_RNAseq_long.dot)
 
 ## preprocessing_RNAseq
 
@@ -178,13 +178,13 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![preprocessing_RNAseq_paired](assets/rulegraphs/preprocessing_RNAseq_paired.slim.svg)
 
-[Full SVG](assets/rulegraphs/preprocessing_RNAseq_paired.svg) · [DOT source](assets/rulegraphs/preprocessing_RNAseq_paired.dot)
+[Animated slim SVG](assets/rulegraphs/preprocessing_RNAseq_paired.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/preprocessing_RNAseq_paired.animated.svg) · [Full SVG](assets/rulegraphs/preprocessing_RNAseq_paired.svg) · [DOT source](assets/rulegraphs/preprocessing_RNAseq_paired.dot)
 
 ### preprocessing_RNAseq_single
 
 ![preprocessing_RNAseq_single](assets/rulegraphs/preprocessing_RNAseq_single.slim.svg)
 
-[Full SVG](assets/rulegraphs/preprocessing_RNAseq_single.svg) · [DOT source](assets/rulegraphs/preprocessing_RNAseq_single.dot)
+[Animated slim SVG](assets/rulegraphs/preprocessing_RNAseq_single.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/preprocessing_RNAseq_single.animated.svg) · [Full SVG](assets/rulegraphs/preprocessing_RNAseq_single.svg) · [DOT source](assets/rulegraphs/preprocessing_RNAseq_single.dot)
 
 ## rMATS
 
@@ -192,7 +192,7 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![rMATS](assets/rulegraphs/rMATS.slim.svg)
 
-[Full SVG](assets/rulegraphs/rMATS.svg) · [DOT source](assets/rulegraphs/rMATS.dot)
+[Animated slim SVG](assets/rulegraphs/rMATS.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/rMATS.animated.svg) · [Full SVG](assets/rulegraphs/rMATS.svg) · [DOT source](assets/rulegraphs/rMATS.dot)
 
 ## scrna_seq
 
@@ -200,10 +200,10 @@ Generated from the current Snakefiles using Snakemake and [snakevision](https://
 
 ![scrna_seq_counts](assets/rulegraphs/scrna_seq_counts.slim.svg)
 
-[Full SVG](assets/rulegraphs/scrna_seq_counts.svg) · [DOT source](assets/rulegraphs/scrna_seq_counts.dot)
+[Animated slim SVG](assets/rulegraphs/scrna_seq_counts.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/scrna_seq_counts.animated.svg) · [Full SVG](assets/rulegraphs/scrna_seq_counts.svg) · [DOT source](assets/rulegraphs/scrna_seq_counts.dot)
 
 ### scrna_seq_fastq
 
 ![scrna_seq_fastq](assets/rulegraphs/scrna_seq_fastq.slim.svg)
 
-[Full SVG](assets/rulegraphs/scrna_seq_fastq.svg) · [DOT source](assets/rulegraphs/scrna_seq_fastq.dot)
+[Animated slim SVG](assets/rulegraphs/scrna_seq_fastq.slim.animated.svg) · [Animated full SVG](assets/rulegraphs/scrna_seq_fastq.animated.svg) · [Full SVG](assets/rulegraphs/scrna_seq_fastq.svg) · [DOT source](assets/rulegraphs/scrna_seq_fastq.dot)

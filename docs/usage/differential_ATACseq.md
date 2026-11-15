@@ -6,7 +6,7 @@
 
 ![differential_ATACseq rulegraph](../assets/rulegraphs/differential_ATACseq.slim.svg)
 
-[Full graph](../assets/rulegraphs/differential_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/differential_ATACseq.slim.animated.svg) · [Full graph](../assets/rulegraphs/differential_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

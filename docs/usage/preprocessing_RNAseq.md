@@ -6,13 +6,13 @@
 
 ![preprocessing_RNAseq_paired rulegraph](../assets/rulegraphs/preprocessing_RNAseq_paired.slim.svg)
 
-[Full graph](../assets/rulegraphs/preprocessing_RNAseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/preprocessing_RNAseq_paired.slim.animated.svg) · [Full graph](../assets/rulegraphs/preprocessing_RNAseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 **preprocessing_RNAseq_single**
 
 ![preprocessing_RNAseq_single rulegraph](../assets/rulegraphs/preprocessing_RNAseq_single.slim.svg)
 
-[Full graph](../assets/rulegraphs/preprocessing_RNAseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/preprocessing_RNAseq_single.slim.animated.svg) · [Full graph](../assets/rulegraphs/preprocessing_RNAseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

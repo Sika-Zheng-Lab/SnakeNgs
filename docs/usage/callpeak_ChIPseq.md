@@ -6,7 +6,7 @@
 
 ![callpeak_ChIPseq rulegraph](../assets/rulegraphs/callpeak_ChIPseq.slim.svg)
 
-[Full graph](../assets/rulegraphs/callpeak_ChIPseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/callpeak_ChIPseq.slim.animated.svg) · [Full graph](../assets/rulegraphs/callpeak_ChIPseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

@@ -6,7 +6,7 @@
 
 ![bam2cram rulegraph](../assets/rulegraphs/bam2cram.slim.svg)
 
-[Full graph](../assets/rulegraphs/bam2cram.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/bam2cram.slim.animated.svg) · [Full graph](../assets/rulegraphs/bam2cram.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

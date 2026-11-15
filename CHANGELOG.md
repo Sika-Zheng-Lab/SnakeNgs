@@ -6,6 +6,8 @@ All notable changes to this SnakeNgs project will be documented in this file.
 
 ### Added
 
+- Add animated full/slim rulegraph SVGs with dependency-level node pulses, pause-on-hover/focus, and reduced-motion support.
+
 - Automatically generate full and slim snakevision rulegraphs for all 22 pipelines (27 representative configurations), embed local SVG assets in MkDocs, and validate/build documentation on pull requests before deployment from develop.
 
 - `scrna_seq.smk`: Configurable sc/snRNA-seq primary analysis with kb mapping, Cell Ranger QC metrics, sample-level QC/Scrublet, SoupX, depth matching, scVI, CellTypist, scANVI label uncertainty, and a self-contained HTML report. Includes Singularity definitions, example configuration, documentation, and numerical/DAG tests.

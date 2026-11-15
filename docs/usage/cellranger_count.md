@@ -6,7 +6,7 @@
 
 ![cellranger_count rulegraph](../assets/rulegraphs/cellranger_count.slim.svg)
 
-[Full graph](../assets/rulegraphs/cellranger_count.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/cellranger_count.slim.animated.svg) · [Full graph](../assets/rulegraphs/cellranger_count.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

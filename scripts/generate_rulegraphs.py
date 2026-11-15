@@ -8,6 +8,7 @@ import tempfile
 import xml.etree.ElementTree as ET
 
 import yaml
+from animate_rulegraph import animate
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -105,6 +106,7 @@ def main():
                     expected_labels -= {'all', 'multiqc'}
                 if labels != expected_labels:
                     raise ValueError(f'Incorrect SVG rule labels: {svg}')
+                animate(svg, staged / f'{name}{suffix}.animated.svg', dot)
             groups.setdefault(pipeline, []).append(name)
         output.mkdir(parents=True, exist_ok=True)
         # Publish only after all pipelines have rendered successfully.
@@ -120,6 +122,8 @@ def main():
             gallery.append(f'## {pipeline}\n')
             for name in names:
                 gallery.append(f'### {name}\n\n![{name}](assets/rulegraphs/{name}.slim.svg)\n\n'
+                               f'[Animated slim SVG](assets/rulegraphs/{name}.slim.animated.svg) · '
+                               f'[Animated full SVG](assets/rulegraphs/{name}.animated.svg) · '
                                f'[Full SVG](assets/rulegraphs/{name}.svg) · [DOT source](assets/rulegraphs/{name}.dot)\n')
         (ROOT / 'docs/rulegraphs.md').write_text('\n'.join(gallery))
         for pipeline, names in groups.items():
@@ -130,6 +134,7 @@ def main():
             block = '<!-- rulegraphs:start -->\n\n'
             for name in names:
                 block += (f'**{name}**\n\n![{name} rulegraph](../assets/rulegraphs/{name}.slim.svg)\n\n'
+                          f'[Animated graph](../assets/rulegraphs/{name}.slim.animated.svg) · '
                           f'[Full graph](../assets/rulegraphs/{name}.svg) · '
                           f'[Graph generation](../rulegraphs-maintenance.md)\n\n')
             block += '<!-- rulegraphs:end -->'

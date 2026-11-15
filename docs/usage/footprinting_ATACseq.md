@@ -6,7 +6,7 @@
 
 ![footprinting_ATACseq rulegraph](../assets/rulegraphs/footprinting_ATACseq.slim.svg)
 
-[Full graph](../assets/rulegraphs/footprinting_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/footprinting_ATACseq.slim.animated.svg) · [Full graph](../assets/rulegraphs/footprinting_ATACseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

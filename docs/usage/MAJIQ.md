@@ -6,7 +6,7 @@
 
 ![MAJIQ rulegraph](../assets/rulegraphs/MAJIQ.slim.svg)
 
-[Full graph](../assets/rulegraphs/MAJIQ.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/MAJIQ.slim.animated.svg) · [Full graph](../assets/rulegraphs/MAJIQ.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

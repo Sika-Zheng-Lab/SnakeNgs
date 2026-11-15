@@ -6,7 +6,7 @@
 
 ![LeafCutter rulegraph](../assets/rulegraphs/LeafCutter.slim.svg)
 
-[Full graph](../assets/rulegraphs/LeafCutter.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/LeafCutter.slim.animated.svg) · [Full graph](../assets/rulegraphs/LeafCutter.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

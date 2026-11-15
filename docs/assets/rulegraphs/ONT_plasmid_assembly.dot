@@ -9,13 +9,13 @@ digraph snakemake_dag {
 	4[label = "flye", color = "0.19 0.6 0.85", style="rounded"];
 	5[label = "qc", color = "0.57 0.6 0.85", style="rounded"];
 	6[label = "multiqc", color = "0.48 0.6 0.85", style="rounded"];
-	6 -> 0
-	1 -> 0
-	5 -> 0
 	3 -> 0
+	1 -> 0
+	6 -> 0
+	5 -> 0
 	2 -> 1
-	4 -> 3
 	2 -> 3
+	4 -> 3
 	2 -> 4
 	2 -> 5
 	5 -> 6

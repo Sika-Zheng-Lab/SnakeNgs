@@ -6,13 +6,13 @@
 
 ![preprocessing_ChIPseq_paired rulegraph](../assets/rulegraphs/preprocessing_ChIPseq_paired.slim.svg)
 
-[Full graph](../assets/rulegraphs/preprocessing_ChIPseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/preprocessing_ChIPseq_paired.slim.animated.svg) · [Full graph](../assets/rulegraphs/preprocessing_ChIPseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 **preprocessing_ChIPseq_single**
 
 ![preprocessing_ChIPseq_single rulegraph](../assets/rulegraphs/preprocessing_ChIPseq_single.slim.svg)
 
-[Full graph](../assets/rulegraphs/preprocessing_ChIPseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/preprocessing_ChIPseq_single.slim.animated.svg) · [Full graph](../assets/rulegraphs/preprocessing_ChIPseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

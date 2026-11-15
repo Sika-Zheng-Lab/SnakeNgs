@@ -6,7 +6,7 @@
 
 ![rMATS rulegraph](../assets/rulegraphs/rMATS.slim.svg)
 
-[Full graph](../assets/rulegraphs/rMATS.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/rMATS.slim.animated.svg) · [Full graph](../assets/rulegraphs/rMATS.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

@@ -6,7 +6,7 @@
 
 ![bam2bw_RNAseq rulegraph](../assets/rulegraphs/bam2bw_RNAseq.slim.svg)
 
-[Full graph](../assets/rulegraphs/bam2bw_RNAseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/bam2bw_RNAseq.slim.animated.svg) · [Full graph](../assets/rulegraphs/bam2bw_RNAseq.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

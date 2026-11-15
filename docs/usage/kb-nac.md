@@ -6,7 +6,7 @@
 
 ![kb_nac rulegraph](../assets/rulegraphs/kb_nac.slim.svg)
 
-[Full graph](../assets/rulegraphs/kb_nac.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/kb_nac.slim.animated.svg) · [Full graph](../assets/rulegraphs/kb_nac.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

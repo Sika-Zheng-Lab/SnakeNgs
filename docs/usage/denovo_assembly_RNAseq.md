@@ -6,13 +6,13 @@
 
 ![denovo_assembly_RNAseq_paired rulegraph](../assets/rulegraphs/denovo_assembly_RNAseq_paired.slim.svg)
 
-[Full graph](../assets/rulegraphs/denovo_assembly_RNAseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/denovo_assembly_RNAseq_paired.slim.animated.svg) · [Full graph](../assets/rulegraphs/denovo_assembly_RNAseq_paired.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 **denovo_assembly_RNAseq_single**
 
 ![denovo_assembly_RNAseq_single rulegraph](../assets/rulegraphs/denovo_assembly_RNAseq_single.slim.svg)
 
-[Full graph](../assets/rulegraphs/denovo_assembly_RNAseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/denovo_assembly_RNAseq_single.slim.animated.svg) · [Full graph](../assets/rulegraphs/denovo_assembly_RNAseq_single.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

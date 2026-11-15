@@ -6,7 +6,7 @@
 
 ![STARsolo rulegraph](../assets/rulegraphs/STARsolo.slim.svg)
 
-[Full graph](../assets/rulegraphs/STARsolo.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/STARsolo.slim.animated.svg) · [Full graph](../assets/rulegraphs/STARsolo.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

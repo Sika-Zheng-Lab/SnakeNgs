@@ -6,9 +6,9 @@ digraph snakemake_dag {
 	1[label = "multiqc", color = "0.50 0.6 0.85", style="rounded"];
 	2[label = "macs2", color = "0.33 0.6 0.85", style="rounded"];
 	3[label = "bedgraphtobigwig", color = "0.17 0.6 0.85", style="rounded"];
+	1 -> 0
 	2 -> 0
 	3 -> 0
-	1 -> 0
 	2 -> 1
 	2 -> 3
 }

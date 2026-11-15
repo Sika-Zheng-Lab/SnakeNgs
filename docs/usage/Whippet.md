@@ -6,7 +6,7 @@
 
 ![Whippet rulegraph](../assets/rulegraphs/Whippet.slim.svg)
 
-[Full graph](../assets/rulegraphs/Whippet.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/Whippet.slim.animated.svg) · [Full graph](../assets/rulegraphs/Whippet.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

@@ -6,13 +6,13 @@
 
 ![scrna_seq_counts rulegraph](../assets/rulegraphs/scrna_seq_counts.slim.svg)
 
-[Full graph](../assets/rulegraphs/scrna_seq_counts.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/scrna_seq_counts.slim.animated.svg) · [Full graph](../assets/rulegraphs/scrna_seq_counts.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 **scrna_seq_fastq**
 
 ![scrna_seq_fastq rulegraph](../assets/rulegraphs/scrna_seq_fastq.slim.svg)
 
-[Full graph](../assets/rulegraphs/scrna_seq_fastq.svg) · [Graph generation](../rulegraphs-maintenance.md)
+[Animated graph](../assets/rulegraphs/scrna_seq_fastq.slim.animated.svg) · [Full graph](../assets/rulegraphs/scrna_seq_fastq.svg) · [Graph generation](../rulegraphs-maintenance.md)
 
 <!-- rulegraphs:end -->
 

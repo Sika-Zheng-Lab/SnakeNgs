@@ -11,21 +11,21 @@ digraph snakemake_dag {
 	6[label = "plotFingerprint", color = "0.44 0.6 0.85", style="rounded"];
 	7[label = "index", color = "0.15 0.6 0.85", style="rounded"];
 	8[label = "bigwig", color = "0.07 0.6 0.85", style="rounded"];
-	8 -> 0
-	1 -> 0
-	4 -> 0
-	6 -> 0
 	7 -> 0
+	4 -> 0
+	1 -> 0
+	8 -> 0
+	6 -> 0
 	6 -> 1
+	3 -> 1
 	4 -> 1
 	2 -> 1
-	3 -> 1
 	2 -> 3
 	5 -> 4
 	3 -> 5
-	4 -> 6
 	7 -> 6
+	4 -> 6
 	4 -> 7
-	4 -> 8
 	7 -> 8
+	4 -> 8
 }
